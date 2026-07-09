@@ -1,0 +1,835 @@
+localhost
+# OPENCLAW MASTER BUILD PROMPT
+# Live Customer Churn Risk Assessment Engine
+# =============================================
+# INSTRUCTIONS FOR SRIXENO:
+# 1. Replace all [YOUR_XXX] placeholders with your actual API keys
+# 2. Copy EVERYTHING below the dashed line and paste into OpenClaw
+# 3. Let Kimi run — do NOT interrupt until it says "BUILD COMPLETE"
+# =============================================
+
+---
+
+You are Xeno, a senior full-stack engineer. Your ONLY job right now is to build a complete, production-grade, real-time web application from scratch — no shortcuts, no placeholders, no "TODO" comments. Every file must be fully implemented, functional, and professional.
+
+---
+
+## 🎯 PROJECT IDENTITY
+
+**Project Name:** Live Customer Churn Risk Assessment Engine with Real-Time Recommendation Overrides for E-Commerce
+**Folder Name:** S7_Project
+**Domain:** E-Commerce / FinTech
+**Type:** Real-Time Dashboard
+**Timeline:** 1–2 months build, built now by you
+
+---
+
+## 📁 FOLDER STRUCTURE — CREATE THIS EXACTLY
+
+```
+S7_Project/
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── RiskBadge.jsx
+│   │   │   ├── CustomerTable.jsx
+│   │   │   ├── SkeletonLoader.jsx
+│   │   │   ├── OverrideModal.jsx
+│   │   │   ├── CampaignPanel.jsx
+│   │   │   ├── ToastNotification.jsx
+│   │   │   ├── StatCard.jsx
+│   │   │   └── EmptyState.jsx
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── CustomerProfile.jsx
+│   │   │   ├── Analytics.jsx
+│   │   │   ├── Campaigns.jsx
+│   │   │   ├── Admin.jsx
+│   │   │   └── Login.jsx
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── socket.js
+│   │   │   └── emailService.js
+│   │   ├── context/
+│   │   │   ├── AuthContext.jsx
+│   │   │   └── SocketContext.jsx
+│   │   ├── hooks/
+│   │   │   ├── useChurnData.js
+│   │   │   ├── useRealTime.js
+│   │   │   └── useToast.js
+│   │   ├── utils/
+│   │   │   ├── riskCalculator.js
+│   │   │   ├── formatters.js
+│   │   │   └── constants.js
+│   │   ├── styles/
+│   │   │   ├── global.css
+│   │   │   ├── dashboard.css
+│   │   │   ├── sidebar.css
+│   │   │   ├── table.css
+│   │   │   ├── modal.css
+│   │   │   ├── charts.css
+│   │   │   └── animations.css
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── router.jsx
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   └── .env.example
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── db.js
+│   │   │   ├── socket.js
+│   │   │   └── emailjs.js
+│   │   ├── controllers/
+│   │   │   ├── authController.js
+│   │   │   ├── customerController.js
+│   │   │   ├── overrideController.js
+│   │   │   ├── campaignController.js
+│   │   │   ├── analyticsController.js
+│   │   │   └── adminController.js
+│   │   ├── models/
+│   │   │   ├── User.js
+│   │   │   ├── Customer.js
+│   │   │   ├── Order.js
+│   │   │   ├── CartEvent.js
+│   │   │   ├── Override.js
+│   │   │   └── Campaign.js
+│   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   ├── customers.js
+│   │   │   ├── overrides.js
+│   │   │   ├── campaigns.js
+│   │   │   ├── analytics.js
+│   │   │   └── admin.js
+│   │   ├── middleware/
+│   │   │   ├── auth.js
+│   │   │   ├── roleCheck.js
+│   │   │   ├── errorHandler.js
+│   │   │   └── rateLimiter.js
+│   │   ├── jobs/
+│   │   │   ├── scoringEngine.js
+│   │   │   └── scheduler.js
+│   │   ├── services/
+│   │   │   ├── churnScorer.js
+│   │   │   ├── emailService.js
+│   │   │   └── socketEmitter.js
+│   │   └── utils/
+│   │       ├── apiResponse.js
+│   │       ├── logger.js
+│   │       └── validators.js
+│   ├── server.js
+│   ├── package.json
+│   └── .env.example
+│
+├── database/
+│   ├── schemas/
+│   │   ├── customer_schema.md
+│   │   ├── order_schema.md
+│   │   └── override_schema.md
+│   ├── seeds/
+│   │   ├── seedCustomers.js
+│   │   ├── seedOrders.js
+│   │   └── seedUsers.js
+│   └── indexes/
+│       └── mongo_indexes.js
+│
+└── docs/
+    ├── README.md
+    ├── API_DOCUMENTATION.md
+    ├── DEPLOYMENT_GUIDE.md
+    ├── ARCHITECTURE.md
+    └── DEMO_SCRIPT.md
+```
+
+---
+
+## 🔑 API KEYS & ENVIRONMENT VARIABLES
+
+### backend/.env
+```
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=[YOUR_MONGODB_ATLAS_URI]
+JWT_SECRET=[YOUR_JWT_SECRET_KEY]
+JWT_EXPIRES_IN=7d
+CLIENT_URL=http://localhost:5173
+SCORING_INTERVAL_MINUTES=30
+```
+
+### frontend/.env
+```
+VITE_API_URL=http://localhost:5000/api
+VITE_SOCKET_URL=http://localhost:5000
+VITE_EMAILJS_SERVICE_ID=[YOUR_EMAILJS_SERVICE_ID]
+VITE_EMAILJS_TEMPLATE_ID=[YOUR_EMAILJS_TEMPLATE_ID]
+VITE_EMAILJS_PUBLIC_KEY=[YOUR_EMAILJS_PUBLIC_KEY]
+VITE_CLOUDINARY_CLOUD_NAME=[YOUR_CLOUDINARY_CLOUD_NAME]
+VITE_CLOUDINARY_UPLOAD_PRESET=[YOUR_CLOUDINARY_UPLOAD_PRESET]
+```
+
+---
+
+## 🧠 CHURN SCORING ENGINE — FULL LOGIC
+
+Implement this EXACTLY in `backend/src/services/churnScorer.js`:
+
+```
+SCORE FORMULA (0–100):
+
+Signal 1 — Days Since Last Purchase (Weight: 40%)
+  0–15 days   → score = 0
+  16–30 days  → score = 20
+  31–45 days  → score = 50
+  46–60 days  → score = 75
+  61+ days    → score = 100
+  weighted = signal1 * 0.40
+
+Signal 2 — Cart Abandonment Rate (Weight: 35%)
+  < 20%       → score = 0
+  20–39%      → score = 25
+  40–59%      → score = 55
+  60–79%      → score = 80
+  80–100%     → score = 100
+  weighted = signal2 * 0.35
+
+Signal 3 — Order Frequency Drop (Weight: 25%)
+  Compare orders: last 30 days vs previous 30 days
+  Increase or same → score = 0
+  Drop 1–25%       → score = 20
+  Drop 26–50%      → score = 50
+  Drop 51–75%      → score = 80
+  Drop 76–100%     → score = 100
+  weighted = signal3 * 0.25
+
+FINAL CHURN SCORE = weighted1 + weighted2 + weighted3
+
+TIER CLASSIFICATION:
+  0–35   → "Low"    → color: #10B981 (green)
+  36–65  → "Medium" → color: #F59E0B (amber)
+  66–100 → "High"   → color: #EF4444 (red)
+```
+
+The scoring job must:
+1. Run every 30 minutes via node-cron
+2. Fetch ALL customers from MongoDB
+3. Calculate score for each customer
+4. Save updated score to database
+5. Emit `score_updated` event via Socket.io to ALL connected clients
+6. Log execution time and customer count
+
+---
+
+## 🔌 REAL-TIME SOCKET.IO EVENTS
+
+Implement these EXACT socket events:
+
+```
+SERVER EMITS:
+  score_updated       → { customerId, newScore, newTier, previousTier }
+  customer_added      → { customer } 
+  override_applied    → { customerId, managerId, newTier, reason }
+  campaign_sent       → { customerId, templateUsed, sentAt }
+  bulk_scores_updated → { customers: [...], updatedAt }
+
+CLIENT LISTENS:
+  connect             → Show "Live" green dot in navbar
+  disconnect          → Show "Reconnecting..." in navbar
+  score_updated       → Update that customer's row live with animation
+  override_applied    → Flash the overridden row in blue
+  campaign_sent       → Show toast "Email sent to [name]"
+  bulk_scores_updated → Refresh entire table with fade animation
+```
+
+---
+
+## 🎨 UI/UX DESIGN SYSTEM
+
+### Color Palette (use CSS variables throughout)
+```css
+--primary: #2563EB        /* Blue */
+--primary-dark: #1E40AF
+--secondary: #7C3AED      /* Purple */
+--success: #10B981        /* Green - Low Risk */
+--warning: #F59E0B        /* Amber - Medium Risk */
+--danger: #EF4444         /* Red - High Risk */
+--bg-dark: #0F172A        /* Sidebar background */
+--bg-card: #1E293B        /* Card background */
+--bg-main: #F8FAFC        /* Main content background */
+--text-primary: #1E293B
+--text-secondary: #64748B
+--text-muted: #94A3B8
+--border: #E2E8F0
+--border-dark: #334155
+```
+
+### Typography
+```
+Font: Inter (Google Fonts)
+Heading 1: 32px bold
+Heading 2: 24px semibold
+Heading 3: 18px semibold
+Body: 14px regular
+Small: 12px regular
+```
+
+### Component Rules
+- All cards: border-radius 12px, box-shadow: 0 1px 3px rgba(0,0,0,0.1)
+- All buttons: border-radius 8px, transition: all 0.2s ease
+- All inputs: border-radius 8px, border: 1px solid var(--border)
+- Sidebar width: 260px (collapsed: 70px)
+- Navbar height: 64px
+- All tables: hover row highlight #F1F5F9
+- Risk badges: pill shape, 6px 12px padding
+
+---
+
+## 📄 PAGES — FULL REQUIREMENTS
+
+### PAGE 1: Login Page (`frontend/src/pages/Login.jsx`)
+- Full-screen split layout (left: branding, right: form)
+- Left side: dark background, logo, tagline, 3 feature bullet points
+- Right side: email + password fields, "Remember me" checkbox
+- JWT token stored in localStorage on success
+- Redirect to Dashboard on success
+- Show error toast on wrong credentials
+- Demo credentials shown below form: admin@churn.com / Admin@123
+- Responsive: stacks vertically on mobile
+
+### PAGE 2: Dashboard (`frontend/src/pages/Dashboard.jsx`)
+- Top row: 4 StatCards (Total Customers, High Risk Count, Medium Risk Count, Campaigns Sent Today)
+- StatCards show real-time count with animated number counter on update
+- Live indicator dot in top-right: green pulsing = connected, red = disconnected
+- Last updated timestamp: "Scores last updated: 2 mins ago"
+- Customer risk table (see CustomerTable component below)
+- Right panel (collapsible): Quick Campaign Trigger for selected customer
+- Skeleton loaders while data is fetching
+- Empty state if no customers
+
+### PAGE 3: Customer Profile (`frontend/src/pages/CustomerProfile.jsx`)
+- Accessed by clicking any customer row
+- Header: customer avatar (Cloudinary), name, email, risk badge, join date
+- 3 metric cards: Last Purchase, Cart Abandon Rate, Order Drop %
+- Churn score gauge chart (semicircle, animated fill)
+- Order history table (last 10 orders with date, amount, status)
+- Cart event log (last 10 abandoned carts)
+- Override history timeline
+- Campaign sent history
+- "Send Campaign Email" button
+- "Override Risk Tier" button → opens OverrideModal
+
+### PAGE 4: Analytics (`frontend/src/pages/Analytics.jsx`)
+- Date range picker (last 7 / 30 / 90 days)
+- Chart 1: Pie/Donut — Current High/Medium/Low distribution
+- Chart 2: Line — Churn score trend over selected period
+- Chart 3: Bar — Top 10 highest risk customers
+- Chart 4: Line — Daily campaign emails sent vs customer recovery
+- Chart 5: Area — New customers vs churned customers per week
+- All charts use Chart.js with smooth animations
+- Export button: download analytics as PNG screenshot
+
+### PAGE 5: Campaigns (`frontend/src/pages/Campaigns.jsx`)
+- 3 email template cards with preview:
+  - Template 1: "We miss you!" — discount offer
+  - Template 2: "Your cart is waiting" — cart abandonment
+  - Template 3: "Loyalty reward" — reward for long-time customers
+- Bulk Campaign section: filter High-risk customers → select all → Send bulk
+- Campaign log table: customer name, template, sent by, sent at, status
+- Campaign stats: total sent, open rate (mocked), recovery rate
+- Individual send: search customer by name → preview email → send
+
+### PAGE 6: Admin (`frontend/src/pages/Admin.jsx`)
+- Tab 1 — Scoring Config: Edit threshold sliders for each signal weight
+- Tab 2 — User Management: List of managers, add/deactivate manager accounts
+- Tab 3 — Email Templates: Edit the 3 email template bodies (WYSIWYG simple textarea)
+- Tab 4 — Override Logs: Full audit trail of all overrides with filter by manager/date
+- Tab 5 — System Status: MongoDB connection status, Socket.io connection count, last scoring run time, next scoring run countdown timer
+
+---
+
+## 🧩 COMPONENTS — FULL REQUIREMENTS
+
+### CustomerTable Component
+- Columns: Avatar | Name | Email | Churn Score | Risk Tier | Last Purchase | Cart Abandon % | Order Drop % | Actions
+- Sortable by: Score (default desc), Name, Last Purchase, Risk Tier
+- Filter bar: search by name/email, filter by risk tier (All/High/Medium/Low)
+- Pagination: 20 customers per page
+- Row highlight: High risk rows have subtle red left border
+- Score column: animated progress bar inside cell
+- Actions column: Eye icon (view profile) | Mail icon (send campaign) | Edit icon (override)
+- Real-time: when a score updates via Socket.io, that specific row flashes yellow briefly, then updates
+- Bulk select: checkbox per row, select all, bulk email trigger
+
+### RiskBadge Component
+- Props: tier (High/Medium/Low), animated (bool)
+- High: red pill with pulsing dot
+- Medium: amber pill with static dot
+- Low: green pill with static dot
+- Animated mode: badge bounces in when tier changes
+
+### OverrideModal Component
+- Modal overlay with blur background
+- Shows current customer name and current tier
+- Dropdown: select new tier (High/Medium/Low)
+- Textarea: reason for override (required, min 20 chars)
+- Submit: calls POST /api/overrides, emits socket event, closes modal
+- Cancel: closes without saving
+
+### ToastNotification Component
+- Position: top-right corner
+- Auto-dismiss after 4 seconds
+- Types: success (green), error (red), warning (amber), info (blue)
+- Stacks if multiple toasts
+- Slide-in animation from right
+
+### SkeletonLoader Component
+- Mimics the exact layout of CustomerTable rows
+- Animated grey shimmer effect
+- Shows 8 skeleton rows while loading
+
+### StatCard Component
+- Props: title, value, icon, color, trend (up/down/neutral), trendValue
+- Animated number counter (counts up from 0 to value on load)
+- Trend arrow: green up arrow or red down arrow with percentage
+
+---
+
+## 🔐 AUTHENTICATION SYSTEM
+
+- JWT-based auth (no third-party auth service needed)
+- Roles: "admin" and "manager"
+- Admin: can access all pages including Admin panel
+- Manager: can access Dashboard, CustomerProfile, Analytics, Campaigns only
+- JWT stored in localStorage
+- Auto-logout on token expiry
+- Protected routes in React router
+- Middleware on all backend routes validates JWT
+
+### Default seed users:
+```
+Admin:   admin@churn.com   / Admin@123    / role: admin
+Manager: manager@churn.com / Manager@123  / role: manager
+```
+
+---
+
+## 🌱 SEED DATA — 150 CUSTOMERS
+
+Generate 150 realistic Indian customer records in `database/seeds/seedCustomers.js`:
+
+Distribution:
+- 30 customers → High Risk (score 70–100)
+- 60 customers → Medium Risk (score 36–69)
+- 60 customers → Low Risk (score 0–35)
+
+Each customer must have:
+- Realistic Indian full name
+- Gmail email address
+- Profile avatar URL (use UI Avatars API: https://ui-avatars.com/api/?name=NAME)
+- Last purchase date (calculated to produce correct risk tier)
+- 10–20 order records in the Order collection
+- 5–15 cart events in the CartEvent collection
+- createdAt between 6 months and 2 years ago
+
+Also generate in `database/seeds/seedOrders.js`:
+- 10–20 orders per customer
+- Random amounts between ₹299 and ₹12,999
+- Order statuses: completed, cancelled, returned
+- Dates spread over last 6 months
+
+---
+
+## 🌐 BACKEND API ENDPOINTS — ALL MUST BE IMPLEMENTED
+
+### Auth Routes (`/api/auth`)
+```
+POST   /api/auth/login              → Returns JWT token
+POST   /api/auth/logout             → Clears token
+GET    /api/auth/me                 → Returns current user from JWT
+PUT    /api/auth/change-password    → Change own password
+```
+
+### Customer Routes (`/api/customers`)
+```
+GET    /api/customers               → All customers (paginated, filterable, sortable)
+GET    /api/customers/:id           → Single customer full profile
+GET    /api/customers/:id/orders    → Customer's order history
+GET    /api/customers/:id/carts     → Customer's cart event history
+GET    /api/customers/:id/score-history → Score over time
+POST   /api/customers               → Add new customer (admin only)
+PUT    /api/customers/:id           → Update customer info (admin only)
+DELETE /api/customers/:id           → Deactivate customer (admin only)
+POST   /api/customers/recalculate   → Manually trigger score recalculation for all
+```
+
+### Override Routes (`/api/overrides`)
+```
+POST   /api/overrides               → Create new override
+GET    /api/overrides               → All overrides (filterable by customer/manager/date)
+GET    /api/overrides/:customerId   → Override history for specific customer
+DELETE /api/overrides/:id           → Delete override (admin only)
+```
+
+### Campaign Routes (`/api/campaigns`)
+```
+POST   /api/campaigns/send          → Send email to single customer
+POST   /api/campaigns/bulk          → Send to all selected customer IDs
+GET    /api/campaigns               → Campaign send history (paginated)
+GET    /api/campaigns/stats         → Total sent, by template, recovery rate
+GET    /api/campaigns/:customerId   → Campaign history for specific customer
+```
+
+### Analytics Routes (`/api/analytics`)
+```
+GET    /api/analytics/distribution  → Count of High/Medium/Low customers
+GET    /api/analytics/trend         → Churn score trend (query: days=7|30|90)
+GET    /api/analytics/top-risk      → Top 10 highest score customers
+GET    /api/analytics/campaign-impact → Campaigns sent vs recoveries
+GET    /api/analytics/weekly        → New vs churned per week
+GET    /api/analytics/summary       → Overview numbers for StatCards
+```
+
+### Admin Routes (`/api/admin`)
+```
+GET    /api/admin/users             → List all manager users
+POST   /api/admin/users             → Create manager account
+PUT    /api/admin/users/:id         → Update user
+DELETE /api/admin/users/:id         → Deactivate user
+GET    /api/admin/config            → Get scoring thresholds
+PUT    /api/admin/config            → Update scoring thresholds
+GET    /api/admin/system-status     → DB status, socket count, last/next job run
+GET    /api/admin/override-logs     → Full override audit log
+```
+
+---
+
+## 📧 EMAIL CAMPAIGN SYSTEM (EmailJS)
+
+Implement in `frontend/src/services/emailService.js`:
+
+```javascript
+// Three templates - implement all three
+Template 1: DISCOUNT_OFFER
+  Subject: "We miss you, {{customer_name}}! Here's 15% off 🎁"
+  Body: Personalized win-back with discount code
+
+Template 2: CART_REMINDER  
+  Subject: "{{customer_name}}, your cart is waiting for you 🛒"
+  Body: Cart abandonment reminder with urgency
+
+Template 3: LOYALTY_REWARD
+  Subject: "A special gift for you, {{customer_name}} 🌟"
+  Body: Loyalty reward for long-term customers
+```
+
+Email service must:
+- Send via EmailJS `send()` method
+- Log result to backend POST /api/campaigns/send
+- Show success/error toast
+- Disable button while sending (loading state)
+- Store send history in Campaign collection
+
+---
+
+## 🎬 ANIMATIONS — IMPLEMENT ALL
+
+```css
+/* Score update flash — when Socket.io pushes new score */
+@keyframes rowFlash {
+  0%   { background-color: #FEF3C7; }
+  50%  { background-color: #FDE68A; }
+  100% { background-color: transparent; }
+}
+
+/* Risk badge change — when tier changes */
+@keyframes badgePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* High risk pulsing dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* Toast slide in */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Number counter (use JS — count from 0 to value over 800ms) */
+
+/* Stat card hover lift */
+/* transform: translateY(-2px) on hover with box-shadow increase */
+
+/* Sidebar collapse/expand smooth transition */
+/* width transition: 260px → 70px over 300ms ease */
+```
+
+---
+
+## 📋 DOCUMENTATION FILES
+
+### docs/README.md — Must include:
+- Project title and one-line description
+- Live demo URL placeholder
+- Tech stack badges (shields.io)
+- Screenshots section (placeholder)
+- Local setup instructions (step by step)
+- Environment variables table
+- API endpoint list
+- Contributing section
+
+### docs/API_DOCUMENTATION.md — Must include:
+- Every endpoint with method, URL, request body, response format
+- Authentication header format
+- Error response format
+- Rate limiting info
+
+### docs/DEMO_SCRIPT.md — Must include:
+- Step-by-step 5-minute demo script
+- What to click, what to say, what to show
+- "WOW moments" highlighted
+- Troubleshooting during live demo
+
+---
+
+## ⚙️ PACKAGE.JSON DEPENDENCIES
+
+### Backend
+```json
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "socket.io": "^4.6.1",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.3",
+    "express-rate-limit": "^7.1.5",
+    "morgan": "^1.10.0",
+    "helmet": "^7.1.0",
+    "express-validator": "^7.0.1",
+    "winston": "^3.11.0"
+  }
+}
+```
+
+### Frontend
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "axios": "^1.6.2",
+    "socket.io-client": "^4.6.1",
+    "chart.js": "^4.4.1",
+    "react-chartjs-2": "^5.2.0",
+    "@emailjs/browser": "^4.3.2",
+    "date-fns": "^3.0.0",
+    "react-hot-toast": "^2.4.1",
+    "lucide-react": "^0.294.0",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.8",
+    "@vitejs/plugin-react": "^4.2.1",
+    "tailwindcss": "^3.3.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
+```
+
+---
+
+## 🚨 CRITICAL RULES — DO NOT VIOLATE
+
+1. **NEVER write placeholder comments** like `// TODO`, `// implement later`, `// add logic here` — every function must be fully implemented
+2. **NEVER use lorem ipsum** — all text must be real and relevant
+3. **Every CSS file must be 200+ lines** — full professional styling
+4. **Every JS/JSX file must be fully functional** — no empty functions
+5. **All API calls must have loading states, success states, and error states**
+6. **All forms must have validation** — required fields, format checks, error messages
+7. **Mobile responsive** — every page must work on 375px width screens
+8. **Console.log is allowed** only in development — wrap in `if (process.env.NODE_ENV === 'development')`
+9. **All async functions must have try/catch with proper error handling**
+10. **Socket.io reconnection logic must be implemented** — auto-reconnect with 3 retry attempts
+11. **Seed files must produce exactly 150 customers** with realistic data
+12. **Both frontend and backend .env.example files must list every variable**
+
+---
+
+## 🏁 BUILD ORDER — FOLLOW THIS SEQUENCE
+
+Build the files in this EXACT order to avoid import errors:
+
+**PHASE 1 — Foundation (do first)**
+1. Create S7_Project folder structure (all folders)
+2. backend/package.json
+3. frontend/package.json
+4. backend/.env.example
+5. frontend/.env.example
+
+**PHASE 2 — Backend Core**
+6. backend/src/config/db.js
+7. backend/src/utils/apiResponse.js
+8. backend/src/utils/logger.js
+9. backend/src/models/User.js
+10. backend/src/models/Customer.js
+11. backend/src/models/Order.js
+12. backend/src/models/CartEvent.js
+13. backend/src/models/Override.js
+14. backend/src/models/Campaign.js
+15. backend/src/middleware/auth.js
+16. backend/src/middleware/roleCheck.js
+17. backend/src/middleware/errorHandler.js
+18. backend/src/middleware/rateLimiter.js
+
+**PHASE 3 — Backend Services & Jobs**
+19. backend/src/services/churnScorer.js (full scoring engine)
+20. backend/src/services/socketEmitter.js
+21. backend/src/services/emailService.js
+22. backend/src/config/socket.js
+23. backend/src/jobs/scoringEngine.js
+24. backend/src/jobs/scheduler.js
+
+**PHASE 4 — Backend Controllers & Routes**
+25. backend/src/controllers/authController.js
+26. backend/src/controllers/customerController.js
+27. backend/src/controllers/overrideController.js
+28. backend/src/controllers/campaignController.js
+29. backend/src/controllers/analyticsController.js
+30. backend/src/controllers/adminController.js
+31. backend/src/routes/auth.js
+32. backend/src/routes/customers.js
+33. backend/src/routes/overrides.js
+34. backend/src/routes/campaigns.js
+35. backend/src/routes/analytics.js
+36. backend/src/routes/admin.js
+37. backend/server.js
+
+**PHASE 5 — Database**
+38. database/seeds/seedUsers.js
+39. database/seeds/seedCustomers.js
+40. database/seeds/seedOrders.js
+41. database/indexes/mongo_indexes.js
+42. database/schemas/customer_schema.md
+43. database/schemas/order_schema.md
+44. database/schemas/override_schema.md
+
+**PHASE 6 — Frontend Foundation**
+45. frontend/vite.config.js
+46. frontend/tailwind.config.js
+47. frontend/src/styles/global.css
+48. frontend/src/styles/animations.css
+49. frontend/src/styles/sidebar.css
+50. frontend/src/styles/dashboard.css
+51. frontend/src/styles/table.css
+52. frontend/src/styles/modal.css
+53. frontend/src/styles/charts.css
+54. frontend/src/utils/constants.js
+55. frontend/src/utils/formatters.js
+56. frontend/src/utils/riskCalculator.js
+
+**PHASE 7 — Frontend Services & Context**
+57. frontend/src/services/api.js
+58. frontend/src/services/socket.js
+59. frontend/src/services/emailService.js
+60. frontend/src/context/AuthContext.jsx
+61. frontend/src/context/SocketContext.jsx
+62. frontend/src/hooks/useChurnData.js
+63. frontend/src/hooks/useRealTime.js
+64. frontend/src/hooks/useToast.js
+
+**PHASE 8 — Frontend Components**
+65. frontend/src/components/ToastNotification.jsx
+66. frontend/src/components/SkeletonLoader.jsx
+67. frontend/src/components/EmptyState.jsx
+68. frontend/src/components/StatCard.jsx
+69. frontend/src/components/RiskBadge.jsx
+70. frontend/src/components/Sidebar.jsx
+71. frontend/src/components/Navbar.jsx
+72. frontend/src/components/OverrideModal.jsx
+73. frontend/src/components/CampaignPanel.jsx
+74. frontend/src/components/CustomerTable.jsx
+
+**PHASE 9 — Frontend Pages**
+75. frontend/src/pages/Login.jsx
+76. frontend/src/pages/Dashboard.jsx
+77. frontend/src/pages/CustomerProfile.jsx
+78. frontend/src/pages/Analytics.jsx
+79. frontend/src/pages/Campaigns.jsx
+80. frontend/src/pages/Admin.jsx
+
+**PHASE 10 — Frontend App Setup**
+81. frontend/src/router.jsx
+82. frontend/src/App.jsx
+83. frontend/src/main.jsx
+84. frontend/public/index.html
+
+**PHASE 11 — Documentation**
+85. docs/README.md
+86. docs/API_DOCUMENTATION.md
+87. docs/DEPLOYMENT_GUIDE.md
+88. docs/ARCHITECTURE.md
+89. docs/DEMO_SCRIPT.md
+
+---
+
+## ✅ COMPLETION CHECKLIST
+
+After building every file, confirm each item:
+- [ ] S7_Project folder structure created
+- [ ] All 6 MongoDB models defined with full schema
+- [ ] Churn scoring engine fully implemented with all 3 signals
+- [ ] Socket.io server configured with all events
+- [ ] node-cron job runs scoring every 30 minutes
+- [ ] All 6 route files with all endpoints implemented
+- [ ] JWT auth middleware protecting all private routes
+- [ ] 150 customers seeded with realistic Indian names
+- [ ] All frontend CSS files with full professional styling
+- [ ] All 6 pages fully built and functional
+- [ ] All 10 components fully built
+- [ ] Socket.io client connected with reconnection logic
+- [ ] EmailJS integrated for 3 campaign templates
+- [ ] Chart.js rendering 5 analytics charts
+- [ ] Mobile responsive on all pages
+- [ ] Error states on all API calls
+- [ ] Loading skeleton shown while fetching
+- [ ] All docs written including DEMO_SCRIPT.md
+- [ ] Both .env.example files complete
+
+---
+
+## 🚀 START NOW
+
+Begin immediately with PHASE 1. Create the full S7_Project folder structure first, then proceed through each phase in order. Do not stop or ask for confirmation between files — build everything continuously until the checklist is complete.
+
+When fully done, print:
+```
+✅ BUILD COMPLETE
+S7_Project is ready.
+Run: cd S7_Project/backend && npm install && npm run seed && npm start
+Run: cd S7_Project/frontend && npm install && npm run dev
+Open: http://localhost:5173
+Login: admin@churn.com / Admin@123
+```
