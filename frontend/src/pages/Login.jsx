@@ -51,9 +51,6 @@ export default function Login() {
         <input name="email" placeholder="Email" className="field" value={email} onChange={e => setEmail(e.target.value)} />
         <input name="password" type="password" placeholder="Password" className="field" value={password} onChange={e => setPassword(e.target.value)} />
         <button className="btn" style={{ width:'100%', marginTop:12 }}>Login</button>
-        <div style={{ marginTop:16, color:'var(--muted)', fontSize:11 }}>
-          Demo: admin@xenoproducts.com / Admin@123
-        </div>
       </form>
     </div>
   );
