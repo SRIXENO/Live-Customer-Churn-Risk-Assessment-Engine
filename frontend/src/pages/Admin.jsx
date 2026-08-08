@@ -5,7 +5,8 @@ import StatCard from '../components/StatCard';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 import { useSocket } from '../context/SocketContext';
-import { Play, RefreshCw, Terminal, Cpu, Database, Eye } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { Play, RefreshCw, Terminal, Cpu, Database, Eye, LogOut } from 'lucide-react';
 
 export default function Admin() {
   const nav = useNavigate();
@@ -132,6 +133,15 @@ export default function Admin() {
     }
   };
 
+  const auth = useAuth();
+  const handleLogout = () => {
+    localStorage.removeItem('xeno_token');
+    localStorage.removeItem('xeno_user');
+    if (auth?.setUser) auth.setUser(null);
+    toast.success('Logged out successfully from Admin Cockpit');
+    nav('/login');
+  };
+
   const tabs = ['overview', 'triggers', 'config', 'campaigns', 'templates', 'database', 'users'];
 
   return (
@@ -142,9 +152,12 @@ export default function Admin() {
           <h1>Admin Cockpit</h1>
           <p>Configure automated risk workflows, manage system databases, and inspect telemetry dispatches.</p>
         </div>
-        <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
+        <div style={{ display:'flex', gap:10, flexWrap:'wrap', alignItems: 'center' }}>
           <button className="btn ghost-btn" onClick={refreshAll} disabled={dbLoading}>Refresh</button>
           <button className="btn ghost-btn" onClick={() => nav('/dashboard')}>Tracker</button>
+          <button className="btn" onClick={handleLogout} style={{ background: 'rgba(255,107,107,0.15)', color: '#ff6b6b', border: '1px solid rgba(255,107,107,0.3)', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <LogOut size={14} /> Logout
+          </button>
         </div>
       </div>
 
@@ -206,6 +219,19 @@ export default function Admin() {
                   </div>
                   <button className="btn ghost-btn" onClick={() => setTab('database')} style={{ fontSize: 11, padding: '6px 12px', minWidth: 90 }}>
                     Manage DB
+                  </button>
+                </div>
+
+                <div className="history-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: 14, background: 'rgba(255,107,107,0.04)', border: '1px solid rgba(255,107,107,0.15)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <LogOut size={18} style={{ color: '#ff6b6b', flexShrink: 0 }} />
+                    <div>
+                      <strong style={{ display: 'block', fontSize: 14, color: '#ff6b6b' }}>Log Out Session</strong>
+                      <span style={{ color: 'var(--muted)', fontSize: 12 }}>End current admin session and clear credentials token.</span>
+                    </div>
+                  </div>
+                  <button className="btn" onClick={handleLogout} style={{ fontSize: 11, padding: '6px 12px', background: '#ff6b6b', color: '#fff', fontWeight: 'bold', minWidth: 90 }}>
+                    Log Out
                   </button>
                 </div>
               </div>

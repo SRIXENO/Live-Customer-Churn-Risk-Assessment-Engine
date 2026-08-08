@@ -1,11 +1,23 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-import { LayoutDashboard, LineChart, Megaphone, GraduationCap, Shield, ArrowUpRight, X } from 'lucide-react';
+import { LayoutDashboard, LineChart, Megaphone, GraduationCap, Shield, ArrowUpRight, X, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
   const socket = useSocket();
   const socketStatus = socket?.status || 'offline';
+  const auth = useAuth();
+  const nav = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('xeno_token');
+    localStorage.removeItem('xeno_user');
+    if (auth?.setUser) auth.setUser(null);
+    document.body.classList.remove('mobile-nav-open');
+    nav('/login');
+  };
 
   return (
     <aside className="sidebar-shell">
@@ -69,6 +81,14 @@ export default function Sidebar() {
           <Shield size={16} className="side-icon-admin" /> 
           <span>Admin</span>
         </NavLink>
+        <button 
+          className="side-link" 
+          onClick={handleLogout}
+          style={{ background: 'transparent', border: 0, width: '100%', cursor: 'pointer', textAlign: 'left', color: '#ff6b6b', marginTop: 12 }}
+        >
+          <LogOut size={16} style={{ color: '#ff6b6b' }} />
+          <span>Logout</span>
+        </button>
       </nav>
 
       {/* Bottom Network Status Telemetry logs */}
