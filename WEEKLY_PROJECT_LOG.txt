@@ -1,0 +1,100 @@
+========================================================================================
+S7 PROJECT WORK LOG & WEEKLY PROGRESS REPORT
+========================================================================================
+Student Name : SRIDHAR M
+Roll / Reg No: 7376241CS515
+Email        : sridharm.cs23@bitsathy.ac.in
+Project Title: LIVE CUSTOMER CHURN RISK ASSESSMENT ENGINE WITH REAL-TIME RECOMMENDATION OVERRIDES FOR E-COMMERCE
+Batch Code   : 2026AC395
+========================================================================================
+
+TENTATIVE REVIEW SCHEDULE & SUBMISSION DEADLINES
+----------------------------------------------------------------------------------------
+WEEK                 START DATE    END DATE      LAST DATE TO SUBMIT
+Week 1               19.07.2026    25.07.2026    10.08.2026
+Week 2               26.07.2026    01.08.2026    10.08.2026
+Week 3               02.08.2026    08.08.2026    10.08.2026
+Week 4               09.08.2026    15.08.2026    19.08.2026
+Week 5               16.08.2026    22.08.2026    26.08.2026
+First Review         27.08.2026    29.08.2026    -
+Week 6               23.08.2026    29.08.2026    02.09.2026
+Week 7               30.08.2026    05.09.2026    09.09.2026
+Week 9               13.09.2026    19.09.2026    23.09.2026
+Week 10              20.09.2026    26.09.2026    30.09.2026
+Second Review        09.10.2026    12.10.2026    -
+Optional Review      16.10.2026                  -
+========================================================================================
+
+----------------------------------------------------------------------------------------
+WEEK 1 (19.07.2026 - 25.07.2026)
+----------------------------------------------------------------------------------------
+Topic: Project Selection, Domain Analysis & Requirement Engineering
+Work Carried Out:
+Investigated current challenges in e-commerce customer retention workflows, focusing on why traditional CRMs fail due to reliance on lagging indicators (e.g., exit surveys, post-churn support tickets). Formulated the concept of a real-time behavioral telemetry engine that computes leading indicators (inactivity velocity, cart abandonment frequency, order drop-off). Selected React + Vite for frontend UI, Express.js + Node.js for backend services, Socket.io for bidirectional WebSockets, and MongoDB Atlas for document persistence. Prepared System Architecture Block Diagram and baseline repository structure.
+
+----------------------------------------------------------------------------------------
+WEEK 2 (26.07.2026 - 01.08.2026)
+----------------------------------------------------------------------------------------
+Topic: Literature Review, Problem Formulation & Mathematical Model Specification
+Work Carried Out:
+Evaluated existing customer churn prediction literature, comparing static machine learning models against real-time rule-based scoring engines. Formulated the multi-variable weighted churn risk formula: Risk Score = w1 * f(Days Inactive) + w2 * g(Cart Abandon Rate) + w3 * h(Order Drop Rate), where w1 = 40% (Inactivity Gap up to 120 days), w2 = 30% (Cart Abandonment Rate), and w3 = 30% (Order Drop Rate). Defined risk classification boundaries: High Risk (>= 70), Medium Risk (40-69), and Low Risk (<= 39). Presented literature summary and mathematical formulation to project supervisor.
+
+----------------------------------------------------------------------------------------
+WEEK 3 (02.08.2026 - 08.08.2026)
+----------------------------------------------------------------------------------------
+Topic: Database Schema Architecture, Data Modeling & Authentication Pipeline
+Work Carried Out:
+Created Mongoose data models for User, Customer, Order, Campaign, and Override collections with nested array fields for score histories and cart sessions. Built RESTful authentication endpoints (/api/auth/login, /api/auth/me) using JWT (JSON Web Tokens) with 7-day expiration and bcryptjs password hashing. Implemented authorization middleware restricting administrative operations to authorized system roles (admin, manager). Developed standalone seed script (seedCustomers.js) to populate MongoDB Atlas with 150 mock customer profiles, order histories, and cart telemetry.
+
+----------------------------------------------------------------------------------------
+WEEK 4 (09.08.2026 - 15.08.2026)
+----------------------------------------------------------------------------------------
+Topic: Real-Time Asynchronous Pipeline & Live Activity Simulator
+Work Carried Out:
+Implemented activitySimulator.js running an asynchronous background thread every 20 seconds to simulate real-world e-commerce user actions (cart_abandoned, checkout_viewed, order_completed, inactive_drift). Integrated Socket.io WebSocket server logic emitting score_updated, customer_activity, and bulk_scores_updated events. Built custom React hooks (useTelemetryData.js, useRealTime.js) that automatically update local React state upon receiving WebSocket signals without requiring full browser reloads.
+
+----------------------------------------------------------------------------------------
+WEEK 5 (16.08.2026 - 22.08.2026)
+----------------------------------------------------------------------------------------
+Topic: Automated Autopilot Campaign Dispatcher & Email Service Integration
+Work Carried Out:
+Designed automated trigger logic monitoring live customer score changes. Integrated EmailJS and Brevo APIs (emailService.js) to dispatch automated email templates (20% Discount Offer, Cart Checkout Reminders) when risk metrics cross predefined thresholds (e.g. Risk Score >= 70 or Cart Abandon Rate >= 50%). Recorded all auto-sent emails to the Campaign collection in MongoDB Atlas for audit tracking.
+
+----------------------------------------------------------------------------------------
+FIRST REVIEW (27.08.2026 - 29.08.2026)
+----------------------------------------------------------------------------------------
+Focus: System Architecture, Database Schemas, Real-time Socket.io Pipeline, Activity Simulator Demo, and Baseline Frontend UI.
+
+----------------------------------------------------------------------------------------
+WEEK 6 (23.08.2026 - 29.08.2026)
+----------------------------------------------------------------------------------------
+Topic: Multi-Agent LLM Negotiation Arena (Google Gemini 1.5 API)
+Work Carried Out:
+Developed the Multi-Agent Retention Negotiation Arena (CustomerProfile.jsx, /api/customers/:id/negotiate-step) allowing managers to practice win-back dialogues. Configured system prompts for AI customer personas (Price-Sensitive, Angry, Indifferent) and AI retention agent strategies (Empathetic, Aggressive, Value-Focused). Enforced JSON schema constraints in Gemini API calls to compute numeric sentiment (0-100%) and win-back retention probability per dialogue step. Built heuristic fallback logic for offline modes.
+
+----------------------------------------------------------------------------------------
+WEEK 7 (30.08.2026 - 05.09.2026)
+----------------------------------------------------------------------------------------
+Topic: Counterfactual Scenario Branching & Manager Recommendation Overrides
+Work Carried Out:
+Built a "what-if" scenario branching forecasting tool (/forecast-branch) enabling managers to simulate the effect of custom recovery scripts (e.g., offering 25% discount vs. loyalty rewards) on predicted score drops. Developed OverrideModal.jsx and backend routes (/api/overrides) allowing managers to manually override AI risk tiers and log custom audit notes. Built the Manager Override Audit Log table in Admin.jsx to track human intervention history.
+
+----------------------------------------------------------------------------------------
+WEEK 9 (13.09.2026 - 19.09.2026)
+----------------------------------------------------------------------------------------
+Topic: Analytics Dashboard, Data Visualizations & Performance Optimization
+Work Carried Out:
+Implemented interactive Chart.js visualizations in Analytics.jsx (Risk Distribution Doughnut Charts, Score Trend Lines, Campaign Recovery Bar Charts). Enhanced styling in global.css with glassmorphism card effects, smooth animations, custom input physics, and responsive layouts. Implemented database indexes (mongo_indexes.js), payload minification, and optimized React re-renders.
+
+----------------------------------------------------------------------------------------
+WEEK 10 (20.09.2026 - 26.09.2026)
+----------------------------------------------------------------------------------------
+Topic: Production Cloud Deployment & End-to-End System Integration
+Work Carried Out:
+Configured vercel.json single-page app rewrites and deployed React frontend to Vercel global CDN. Configured render.yaml and deployed Express/Socket.io backend to Render Web Services. Connected production environment to a dedicated MongoDB Atlas cluster. Conducted CORS validation, environment variable security checks, and cross-browser live WebSocket testing.
+
+----------------------------------------------------------------------------------------
+SECOND REVIEW (09.10.2026 - 12.10.2026)
+----------------------------------------------------------------------------------------
+Focus: Live Production URLs (Vercel & Render), Complete Full-Stack Demonstration, AI Negotiation Arena Walkthrough, Performance Benchmarks, and Final Documentation.
+========================================================================================
