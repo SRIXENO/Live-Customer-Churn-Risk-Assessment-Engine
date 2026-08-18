@@ -1,5 +1,5 @@
 ========================================================================================
-S7 PROJECT WORK LOG & WEEKLY PROGRESS REPORT (FORM SUBMISSION READY)
+S7 PROJECT WORK LOG & WEEKLY PROGRESS REPORT (EXPANDED PORTAL EDITION)
 ========================================================================================
 Student Name : SRIDHAR M
 Roll / Reg No: 7376241CS515
@@ -11,73 +11,95 @@ Batch Code   : 2026AC395
 ----------------------------------------------------------------------------------------
 WEEK 1 (19.07.2026 - 25.07.2026)
 ----------------------------------------------------------------------------------------
-In Week 1, we successfully identified the core project domain in real-time e-commerce customer analytics and risk management. We analyzed the fundamental limitations of traditional reactive CRM platforms and formulated the baseline scope for building a proactive, event-driven churn risk assessment engine that tracks leading behavioral indicators.
+In Week 1, we successfully identified the core project domain in real-time e-commerce customer analytics and risk management. We analyzed the fundamental limitations of traditional reactive CRM platforms and formulated the baseline scope for building a proactive, event-driven churn risk assessment engine that tracks leading behavioral indicators before account cancellation occurs.
 
-Additionally, we established the full-stack technology architecture, selecting React with Vite for the single-page frontend, Node.js and Express for backend REST APIs, Socket.io for real-time WebSocket communication, and MongoDB Atlas for cloud database persistence. We finalized the system architecture diagram and initialized the baseline codebase repository.
+Additionally, we established the full-stack technology architecture, selecting React with Vite for the single-page frontend UI, Node.js and Express for backend REST APIs, Socket.io for real-time WebSocket communication, and MongoDB Atlas for cloud database persistence. We crafted the complete system architecture block diagram and mapped out the client-server event synchronization topology.
+
+Furthermore, we initialized the baseline Git version control repository and structured the monorepo folder directory layout into frontend, backend, database schemas, and documentation modules. We validated the baseline software and hardware environment specifications for development.
 
 ----------------------------------------------------------------------------------------
 WEEK 2 (26.07.2026 - 01.08.2026)
 ----------------------------------------------------------------------------------------
-In Week 2, we conducted a comprehensive literature review on enterprise customer retention strategies and existing churn prediction models. We evaluated traditional static machine learning algorithms against real-time weighted scoring systems to design an agile, event-driven behavioral evaluation model.
+In Week 2, we conducted a comprehensive literature review on enterprise customer retention strategies and existing churn prediction models. We evaluated traditional static machine learning algorithms against real-time weighted scoring systems to design an agile, event-driven behavioral evaluation model capable of dynamic continuous calculation.
 
-Additionally, we formulated the multi-variable mathematical churn risk scoring equation, combining weighted indicators for temporal inactivity (40%), cart abandonment rate (30%), and purchase decay (30%). We defined the three-tier classification boundaries (High, Medium, and Low risk tiers) and presented the mathematical framework to our project supervisor.
+Additionally, we formulated the multi-variable mathematical churn risk scoring equation, combining weighted indicators for temporal inactivity (40%), cart abandonment rate (30%), and purchase decay (30%). We defined the three-tier classification boundaries: High Risk (Risk Score >= 70), Medium Risk (40 to 69), and Low Risk (<= 39).
+
+Furthermore, we presented the mathematical model formulation, weighting parameters, and behavioral threshold rules to our project supervisor for technical validation. We incorporated feedback regarding real-time event simulation parameters and automated campaign triggering boundaries.
 
 ----------------------------------------------------------------------------------------
 WEEK 3 (02.08.2026 - 08.08.2026)
 ----------------------------------------------------------------------------------------
-In Week 3, we designed and implemented the database schema architecture using Mongoose for MongoDB Atlas. We constructed data models for Users, Customers, Orders, Campaigns, and Overrides, incorporating dynamic array structures to log customer cart histories and score evolution trends over time.
+In Week 3, we designed and implemented the database schema architecture using Mongoose object modeling for MongoDB Atlas. We constructed schemas for User, Customer, Order, Campaign, and Override collections, incorporating dynamic array structures to log customer cart histories, order transactions, and score evolution trends over time.
 
-Additionally, we built the secure RESTful authentication system using JSON Web Tokens (JWT) and bcryptjs password hashing, along with role-based access control middleware. We developed a standalone database seeding engine to populate MongoDB Atlas with 150 realistic customer profiles, order histories, and telemetry records.
+Additionally, we built the secure RESTful authentication system using JSON Web Tokens (JWT) with 7-day expiration and bcryptjs password hashing. We implemented authorization middleware enforcing role-based access control (RBAC) to protect administrative endpoints and user management operations.
+
+Furthermore, we developed a standalone database seeding script (seedCustomers.js) to populate MongoDB Atlas with 150 realistic customer profiles, order histories, and cart telemetry records. We verified data integrity and collection indexes across the cloud cluster.
 
 ----------------------------------------------------------------------------------------
 WEEK 4 (09.08.2026 - 15.08.2026)
 ----------------------------------------------------------------------------------------
-In Week 4, we implemented the asynchronous background activity simulator thread that runs every 20 seconds. This engine continuously generates real-world user interaction events such as cart abandonment, checkout page views, completed orders, and login inactivity drift.
+In Week 4, we implemented the asynchronous background activity simulator thread (activitySimulator.js) that runs continuously every 20 seconds. This engine automatically generates real-world user interaction events such as cart abandonment, checkout page views, completed orders, and login inactivity drift.
 
-Additionally, we integrated Socket.io WebSocket servers to stream live customer risk updates directly to the client interface. We developed custom React telemetry hooks that automatically synchronize local UI state upon receiving socket notifications, ensuring zero page reloads for live monitoring.
+Additionally, we integrated Socket.io WebSocket server channels to stream live customer risk score updates and telemetry events directly to connected clients. We developed custom React telemetry hooks (useTelemetryData.js, useRealTime.js) that automatically update local UI components upon receiving socket broadcasts without browser reloads.
+
+Furthermore, we conducted latency and stress testing on the WebSocket pipeline, verifying that score updates and activity feeds render instantly across multiple browser windows with zero state desynchronization.
 
 ----------------------------------------------------------------------------------------
 WEEK 5 (16.08.2026 - 22.08.2026)
 ----------------------------------------------------------------------------------------
-In Week 5, we designed and deployed the automated autopilot campaign dispatcher. This module continuously monitors customer risk score fluctuations and automatically triggers targeted recovery campaigns when customer metrics breach predefined risk thresholds.
+In Week 5, we designed and deployed the automated autopilot campaign dispatcher module. This subsystem continuously monitors live customer score fluctuations and automatically triggers targeted recovery campaigns when customer risk metrics breach predefined operational thresholds.
 
-Additionally, we integrated EmailJS and Brevo email service APIs to dispatch automated email templates, including 20% discount vouchers and cart checkout reminders. All dispatched campaigns are automatically recorded to MongoDB Atlas to maintain a complete operational audit trail.
+Additionally, we integrated EmailJS and Brevo email service APIs (emailService.js) to dispatch automated email communications, including 20% discount vouchers and cart checkout recovery reminders. All dispatched campaigns are automatically logged to the Campaign collection in MongoDB Atlas to maintain a complete audit log.
+
+Furthermore, we constructed the Admin Cockpit controls for configuring autopilot rules dynamically, allowing administrators to enable or disable automated discount dispatches and adjust risk sensitivity thresholds on the fly.
 
 ----------------------------------------------------------------------------------------
 FIRST REVIEW (27.08.2026 - 29.08.2026)
 ----------------------------------------------------------------------------------------
-In the First Review phase, we presented the complete baseline system architecture, database schema design, and mathematical risk model to the evaluation panel. We demonstrated the real-time Socket.io pipeline and live background activity simulator running on our baseline dashboard prototype.
+In the First Review phase, we presented the complete baseline system architecture, database schema design, and mathematical risk model to the project evaluation panel. We demonstrated the real-time Socket.io pipeline and live background activity simulator running on our baseline dashboard prototype.
+
+Additionally, we highlighted the automated autopilot dispatcher and live customer scoring features. The evaluation panel reviewed the system topography, code quality, and database indexing, approving the progress for Phase 2 development.
 
 ----------------------------------------------------------------------------------------
 WEEK 6 (23.08.2026 - 29.08.2026)
 ----------------------------------------------------------------------------------------
-In Week 6, we successfully implemented the Multi-Agent AI Negotiation Arena using the Google Gemini LLM API. This module simulates interactive retention dialogues between a virtual AI customer and an AI retention agent. It dynamically evaluates live sentiment scores and win-back retention probabilities while enforcing operational business rules, such as a 25% maximum discount constraint.
+In Week 6, we successfully implemented the Multi-Agent AI Negotiation Arena using the Google Gemini LLM API. This module simulates interactive retention dialogues between a virtual AI customer and an AI retention agent, enabling customer success managers to practice negotiation strategies.
 
-Additionally, we designed system prompt structures for simulating distinct customer moods (Price-Sensitive, Angry, Indifferent) and agent strategies (Empathetic, Aggressive, Value-Focused), backed by a heuristic failover engine for offline stability.
+Additionally, we designed system prompt structures for simulating distinct customer moods (Price-Sensitive, Angry, Indifferent) and agent strategies (Empathetic, Aggressive, Value-Focused). We enforced JSON schema constraints in Gemini API payloads to evaluate live numeric sentiment (0-100%) and win-back retention probabilities per dialogue turn.
+
+Furthermore, we engineered a robust heuristic fallback engine to handle API rate limits and offline states gracefully, ensuring the negotiation simulation remains fully functional even during cloud API interruptions.
 
 ----------------------------------------------------------------------------------------
 WEEK 7 (30.08.2026 - 05.09.2026)
 ----------------------------------------------------------------------------------------
-In Week 7, we developed a counterfactual scenario branching tool that allows Customer Success Managers to test "what-if" recovery scripts before applying them to customer accounts. This tool calculates predicted score drops and retention probability gains for custom intervention strategies.
+In Week 7, we developed a counterfactual scenario branching tool that allows Customer Success Managers to test "what-if" recovery scripts before applying them to live customer accounts. This tool calculates predicted score drops and retention probability gains for custom intervention strategies.
 
-Additionally, we built the manual recommendation override system and audit log registry. This feature enables managers to manually adjust customer risk classification tiers, log custom intervention notes, and track human intervention histories within the Admin Cockpit.
+Additionally, we built the manual recommendation override system and audit log registry (OverrideModal.jsx, /api/overrides). This feature enables managers to manually adjust customer risk classification tiers, log custom intervention rationale, and override automated AI recommendations.
+
+Furthermore, we created the Manager Override Audit Registry table in the Admin Cockpit, providing a complete chronological record of all human interventions, overridden tiers, and administrative notes for compliance tracking.
 
 ----------------------------------------------------------------------------------------
 WEEK 9 (13.09.2026 - 19.09.2026)
 ----------------------------------------------------------------------------------------
 In Week 9, we implemented interactive analytics dashboards and visual data charts using Chart.js and React ChartJS 2. We constructed real-time visual displays for customer risk tier distribution, temporal risk score trends, campaign recovery conversion rates, and revenue-at-risk metrics.
 
-Additionally, we refined the application design system with cybernetic glassmorphism styling, micro-animations, and responsive layouts. We optimized database query indexing and payload sizes to ensure low-latency performance.
+Additionally, we refined the application design system (global.css) with cybernetic glassmorphic card styling, smooth UI micro-animations, custom checkbox physics, glowing status badges, and responsive layouts across desktop and mobile viewports.
+
+Furthermore, we optimized database query indexing (mongo_indexes.js), payload minification, and React component memoization to ensure high-frame-rate UI rendering and minimal network latency.
 
 ----------------------------------------------------------------------------------------
 WEEK 10 (20.09.2026 - 26.09.2026)
 ----------------------------------------------------------------------------------------
 In Week 10, we successfully deployed the complete full-stack application to production cloud infrastructure. We hosted the React single-page frontend on Vercel's global CDN, deployed the Express and Socket.io real-time server on Render Web Services, and connected production data persistence to MongoDB Atlas.
 
-Additionally, we performed comprehensive end-to-end integration testing, validating cross-origin WebSocket tunnel stability, security middleware, environment variables, and multi-browser live synchronization.
+Additionally, we configured CORS security rules, SSL certificates, environment variables, and WebSocket tunneling parameters to ensure seamless communication between Vercel and Render in production.
+
+Furthermore, we conducted comprehensive end-to-end integration and security testing, verifying multi-browser live synchronization, background scoring jobs, automated email dispatches, and cloud database persistence under simulated user traffic.
 
 ----------------------------------------------------------------------------------------
 SECOND REVIEW (09.10.2026 - 12.10.2026)
 ----------------------------------------------------------------------------------------
 In the Second Review phase, we presented the live production-deployed application operating on Vercel and Render. We delivered a comprehensive end-to-end demonstration featuring live background telemetry, automated autopilot dispatches, AI negotiation arena simulations, and final project documentation.
+
+Additionally, we presented performance benchmark results, database query optimization metrics, and cloud infrastructure reliability logs to the examination committee, completing all requirements for the project.
 ========================================================================================
