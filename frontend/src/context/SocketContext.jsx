@@ -8,7 +8,8 @@ export function SocketProvider({ children }) {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SOCKET_URL, { transports: ['websocket', 'polling'] });
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'https://live-customer-churn-risk-assessment.onrender.com';
+    const socket = io(socketUrl, { transports: ['websocket', 'polling'] });
     socketRef.current = socket;
     window.__xenoSocket = socket;
     socket.on('connect', () => setStatus('online'));
