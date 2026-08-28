@@ -65,6 +65,33 @@ app.use(express.json({ limit: '2mb' }));
 app.use(morgan('dev'));
 app.use(rateLimiter);
 
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Xeno Telemetry Engine Backend</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a121f; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+          .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 40px; border-radius: 16px; text-align: center; max-width: 500px; backdrop-filter: blur(20px); }
+          h1 { color: #72f1b8; margin-top: 0; font-size: 24px; }
+          p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+          .badge { display: inline-block; padding: 6px 12px; background: rgba(114,241,184,0.15); color: #72f1b8; border-radius: 20px; font-weight: bold; font-size: 12px; margin: 12px 0 24px; }
+          .btn { display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #72f1b8, #00f0ff); color: #05101a; font-weight: bold; text-decoration: none; border-radius: 10px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <h1>🟢 Xeno Telemetry Backend Online</h1>
+          <div class="badge">WebSocket & REST API Operational</div>
+          <p>This server handles real-time customer churn risk telemetry, live Socket.io events, and AI negotiation pipelines.</p>
+          <a class="btn" href="https://live-customer-churn-risk-assessment-engine-srixenos-projects.vercel.app">Open Live Frontend Application &rarr;</a>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
 app.get('/api/health', (req, res) => res.status(200).json(apiResponse.success({
   status: 'ok',
   timestamp: new Date().toISOString(),
