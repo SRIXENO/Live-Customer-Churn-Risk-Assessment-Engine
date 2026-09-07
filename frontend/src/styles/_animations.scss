@@ -1,0 +1,218 @@
+// ==========================================
+// KEYFRAME ANIMATIONS & ADVANCED EFFECTS
+// ==========================================
+@use 'variables' as *;
+
+// Glowing Radar Pulse for Status
+@keyframes pulse-glow-green {
+  0% { filter: drop-shadow(0 0 2px rgba(114, 241, 184, 0.5)); opacity: 1; transform: scale(1); }
+  50% { filter: drop-shadow(0 0 12px rgba(114, 241, 184, 0.95)); opacity: 0.75; transform: scale(1.08); }
+  100% { filter: drop-shadow(0 0 2px rgba(114, 241, 184, 0.5)); opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow-danger {
+  0% { filter: drop-shadow(0 0 3px rgba(255, 107, 107, 0.5)); opacity: 1; }
+  50% { filter: drop-shadow(0 0 14px rgba(255, 107, 107, 0.95)); opacity: 0.8; }
+  100% { filter: drop-shadow(0 0 3px rgba(255, 107, 107, 0.5)); opacity: 1; }
+}
+
+@keyframes pulse-glow-cyan {
+  0% { filter: drop-shadow(0 0 3px rgba(0, 240, 255, 0.5)); opacity: 1; }
+  50% { filter: drop-shadow(0 0 14px rgba(0, 240, 255, 0.95)); opacity: 0.8; }
+  100% { filter: drop-shadow(0 0 3px rgba(0, 240, 255, 0.5)); opacity: 1; }
+}
+
+// Shimmer Swipe for Cards and Scorebars
+@keyframes shimmer-swipe {
+  0% { left: -150%; }
+  35%, 100% { left: 150%; }
+}
+
+// Risk Progress Bar Gradient Animation
+@keyframes risk-bar-stripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+// Interactive Bell Ring
+@keyframes ring-bell {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(15deg); }
+  30% { transform: rotate(-15deg); }
+  45% { transform: rotate(10deg); }
+  60% { transform: rotate(-10deg); }
+  75% { transform: rotate(4deg); }
+  85% { transform: rotate(-4deg); }
+  100% { transform: rotate(0); }
+}
+
+// Cyan Ping Indicator
+@keyframes ping-cyan {
+  0% { transform: scale(0.8); opacity: 1; }
+  80% { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+// Sidebar Active Pulsing Indicator
+@keyframes pulse-line {
+  0% { height: 35%; opacity: 0.5; box-shadow: 0 0 6px #00f0ff; }
+  50% { height: 65%; opacity: 1; box-shadow: 0 0 14px #00f0ff, 0 0 24px rgba(0, 240, 255, 0.5); }
+  100% { height: 35%; opacity: 0.5; box-shadow: 0 0 6px #00f0ff; }
+}
+
+// Breathing Lamp Glow
+@keyframes breathing {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px currentColor); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scaleX(1); opacity: .7; }
+  50% { transform: scaleX(1.03); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// 3D Cyber Modal Pop
+@keyframes cyberModalPop {
+  0% { transform: translateY(35px) scale(0.9) rotateX(4deg); opacity: 0; filter: blur(6px); }
+  70% { transform: translateY(-4px) scale(1.01) rotateX(0deg); opacity: 0.95; filter: none; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+// Aurora Orbs Floating in Space
+@keyframes drift-orb-a {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(8vw, -6vh, 0) scale(1.1); }
+  66% { transform: translate3d(-5vw, 10vh, 0) scale(0.95); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes drift-orb-b {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-6vw, 5vh, 0) scale(1.15); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes login-slide-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes login-slide-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+// Holographic Gradient Shine
+@keyframes holo-text-shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slideInActivity {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+// Smooth Page Entry Animation
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Micro-animations for Icons
+@keyframes user-bounce-stretch {
+  0% { transform: scale(1) translateY(0); }
+  20% { transform: scale(1.1, 0.82) translateY(0); }
+  40% { transform: scale(0.9, 1.15) translateY(-4px); }
+  60% { transform: scale(1.04, 0.95) translateY(0); }
+  80% { transform: scale(0.98, 1.02) translateY(0); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes shield-defend {
+  0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 2px var(--danger)); }
+  25% { transform: rotate(-8deg) scale(1.08); }
+  50% { transform: rotate(8deg) scale(1.08); filter: drop-shadow(0 0 10px var(--danger)); }
+  75% { transform: rotate(-4deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 2px var(--danger)); }
+}
+
+@keyframes plane-fly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  45% { transform: translate(22px, -22px) scale(0.6); opacity: 0; }
+  50% { transform: translate(-22px, 22px) scale(0.6); opacity: 0; }
+  100% { transform: translate(0, 0) scale(1); opacity: 1; }
+}
+
+@keyframes ecg-sweep {
+  0% { stroke-dashoffset: 48; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes split-shake {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15) rotate(12deg); filter: drop-shadow(0 0 6px #00f0ff); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cartoon-jelly {
+  0% { transform: scale(1) rotate(0deg); }
+  12.5% { transform: scale(1.2, 0.75) rotate(-6deg); }
+  37.5% { transform: scale(0.8, 1.25) rotate(6deg) translateY(-8px); }
+  62.5% { transform: scale(1.1, 0.9) rotate(-3deg) translateY(0); }
+  75% { transform: scale(0.97, 1.03) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes tracker-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(90deg); }
+}
+
+@keyframes chart-bounce {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.7) scaleX(0.95); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes megaphone-shake {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(10deg) scale(1.05); }
+  30% { transform: rotate(-10deg) scale(1.05); }
+  45% { transform: rotate(6deg); }
+  60% { transform: rotate(-6deg); }
+  100% { transform: rotate(0); }
+}
+
+@keyframes cap-tilt {
+  0% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-12deg) translateY(-2px); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+
+@keyframes shield-tilt {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(8deg) scale(1.08); filter: drop-shadow(0 0 6px var(--accent)); }
+  100% { transform: rotate(0) scale(1); }
+}
+
+@keyframes small-box-jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px) scale(1.06) rotate(4deg); }
+  100% { transform: translateY(0); }
+}

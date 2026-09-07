@@ -1,0 +1,110 @@
+// ==========================================
+// REUSABLE SASS MIXINS
+// ==========================================
+@use 'variables' as *;
+
+// Advanced Glassmorphism with inner specular rim light
+@mixin glass-panel($blur: 18px, $bg: rgba(10, 18, 31, 0.85)) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $color-line;
+  box-shadow: $shadow-main, inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: all 0.3s $ease-card;
+}
+
+// Interactive holographic hover for cards
+@mixin card-hover-glow($accent-color: $color-cyan) {
+  transition: transform 0.35s $ease-smooth, box-shadow 0.35s $ease-smooth, border-color 0.35s ease;
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.008);
+    border-color: rgba($accent-color, 0.35);
+    box-shadow: 
+      0 24px 60px rgba(0, 0, 0, 0.45),
+      0 0 25px rgba($accent-color, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+
+// Shimmer highlight effect
+@mixin shimmer-effect {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+    animation: shimmer-swipe 4s infinite ease-in-out;
+  }
+}
+
+// Flex centering shortcut
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flex between shortcut
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Interactive button shine reflection
+@mixin button-shine {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.32),
+      transparent
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    left: 150%;
+    transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+// Responsive Breakpoints
+@mixin mobile {
+  @media (max-width: #{$bp-mobile}) {
+    @content;
+  }
+}
+
+@mixin desktop-wide {
+  @media (min-width: #{$bp-wide}) {
+    @content;
+  }
+}

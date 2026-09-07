@@ -1,0 +1,21 @@
+// =========================================================
+// LIVE CUSTOMER CHURN RISK ASSESSMENT ENGINE - SASS STYLES
+// =========================================================
+
+// 1. Design Tokens & Variables
+@use 'variables' as *;
+
+// 2. Mixins & Utility Functions
+@use 'mixins' as *;
+
+// 3. Keyframe Animations & Micro-Interactions
+@use 'animations' as *;
+
+// 4. Base Resets & Global Form Inputs
+@use 'base' as *;
+
+// 5. Layout, App Shell, Sidebars & Responsive Breakpoints
+@use 'layout' as *;
+
+// 6. Components, Cards, Buttons, Modals, Feed & Widgets
+@use 'components' as *;
