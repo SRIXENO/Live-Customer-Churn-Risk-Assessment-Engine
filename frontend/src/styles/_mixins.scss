@@ -1,36 +1,29 @@
 // ==========================================
-// REUSABLE SASS MIXINS
+// REUSABLE SASS MIXINS - HIGH PERFORMANCE
 // ==========================================
 @use 'variables' as *;
 
-// Advanced Glassmorphism with inner specular rim light
-@mixin glass-panel($blur: 18px, $bg: rgba(10, 18, 31, 0.85)) {
+// Optimized Glassmorphism with rich opaque fallback to prevent compositor thrashing
+@mixin glass-panel($bg: rgba(14, 27, 45, 0.94)) {
   background: $bg;
-  backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
   border: 1px solid $color-line;
-  box-shadow: $shadow-main, inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-  backface-visibility: hidden;
-  transition: all 0.3s $ease-card;
+  box-shadow: $shadow-card;
 }
 
 // Interactive holographic hover for cards
 @mixin card-hover-glow($accent-color: $color-cyan) {
-  transition: transform 0.35s $ease-smooth, box-shadow 0.35s $ease-smooth, border-color 0.35s ease;
+  transition: transform 0.25s $ease-smooth, box-shadow 0.25s $ease-smooth, border-color 0.25s ease;
   
   &:hover {
-    transform: translateY(-4px) scale(1.008);
+    transform: translateY(-3px);
     border-color: rgba($accent-color, 0.35);
     box-shadow: 
-      0 24px 60px rgba(0, 0, 0, 0.45),
-      0 0 25px rgba($accent-color, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      0 20px 45px rgba(0, 0, 0, 0.4),
+      0 0 16px rgba($accent-color, 0.1);
   }
 }
 
-// Shimmer highlight effect
+// Shimmer highlight effect on hover only (Zero scroll overhead)
 @mixin shimmer-effect {
   position: relative;
   overflow: hidden;
@@ -45,12 +38,16 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.06),
       transparent
     );
     transform: skewX(-20deg);
     pointer-events: none;
-    animation: shimmer-swipe 4s infinite ease-in-out;
+  }
+
+  &:hover::before {
+    left: 150%;
+    transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -83,7 +80,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0.28),
       transparent
     );
     transform: skewX(-20deg);
@@ -92,7 +89,7 @@
 
   &:hover::after {
     left: 150%;
-    transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
