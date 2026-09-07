@@ -10,6 +10,7 @@ import useTelemetryData from '../hooks/useTelemetryData';
 import { useSocket } from '../context/SocketContext';
 import useRealTime from '../hooks/useRealTime';
 import api from '../services/api';
+import CyberMatrixCanvas from '../components/CyberMatrixCanvas';
 import toast from 'react-hot-toast';
 
 const EMPTY_ARRAY = [];
@@ -202,11 +203,21 @@ export default function Dashboard() {
           <StatCard title="Campaigns Sent Today" value={12} color="#4cb7ff" trendValue="+24%" />
           <StatCard title="Recovered This Week" value={4} color="#ffb84d" trendValue="+16%" />
         </div>
-        <div className={`card glass-card status-strip ${revealed ? 'is-visible' : ''}`}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-            <div>Socket status: {status}</div>
-            <div>Last scored: {lastScored}</div>
+        <div className={`card glass-card ${revealed ? 'is-visible' : ''}`} style={{ marginTop: 16, padding: 0, overflow: 'hidden', border: '1px solid rgba(0, 240, 255, 0.2)' }}>
+          <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(4, 10, 20, 0.6)', flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span className="live-dot" style={{ width: 9, height: 9, borderRadius: '50%', background: '#00f0ff', boxShadow: '0 0 10px #00f0ff', display: 'inline-block', animation: 'ping-cyan 2s infinite' }} />
+              <strong style={{ fontSize: 13, letterSpacing: '.06em', textTransform: 'uppercase', color: '#ecf3ff' }}>3D Neural Churn Cluster Telemetry</strong>
+            </div>
+            <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'var(--muted)', alignItems: 'center' }}>
+              <span>Live Engine: <strong style={{ color: '#72f1b8' }}>{status.toUpperCase()}</strong></span>
+              <span>•</span>
+              <span>Last Scored: <strong style={{ color: '#00f0ff' }}>{lastScored}</strong></span>
+              <span>•</span>
+              <span>Active Clusters: <strong style={{ color: '#ffb84d' }}>{scoreGroups.length} Tiers</strong></span>
+            </div>
           </div>
+          <CyberMatrixCanvas height={220} nodeCount={55} />
         </div>
 
         {/* Telemetry Risk Heatmap Grid Panel */}

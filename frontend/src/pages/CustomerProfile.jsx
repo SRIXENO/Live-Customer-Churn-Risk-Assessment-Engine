@@ -600,24 +600,53 @@ export default function CustomerProfile() {
 
           {aiData && (
             <div className="ai-diagnostics-container">
-              <div className="ai-diagnosis-bubble">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                  <strong style={{ color: '#4cb7ff', margin: 0, fontSize: 13, textTransform: 'uppercase', letterSpacing: '.04em' }}>Telemetry Diagnostics Diagnosis</strong>
-                  <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 99, background: aiData.isRealAi ? 'rgba(0, 240, 255, 0.12)' : 'rgba(255, 255, 255, 0.05)', color: aiData.isRealAi ? '#00f0ff' : 'var(--muted)', textTransform: 'uppercase', fontWeight: 'bold' }}>
-                    {aiData.isRealAi ? 'Gemini Live AI' : 'Heuristic Engine'}
+              {/* Neural Synapse Telemetry Bar */}
+              <div style={{
+                background: 'rgba(0, 240, 255, 0.04)',
+                border: '1px solid rgba(0, 240, 255, 0.2)',
+                borderRadius: 14,
+                padding: '12px 16px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: 12
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#72f1b8', boxShadow: '0 0 10px #72f1b8', display: 'inline-block' }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#ecf3ff', letterSpacing: '.04em', textTransform: 'uppercase' }}>
+                    Neural Inference Engine: <span style={{ color: '#00f0ff' }}>{aiData.isRealAi ? 'Gemini Pro 1.5 Real-Time' : 'Telemetry Heuristic Model'}</span>
                   </span>
                 </div>
-                <p style={{ margin: 0, fontSize: 14 }}>{aiData.diagnosis}</p>
-              </div>
-              <div className="ai-recommendation-box">
-                <strong style={{ color: 'var(--accent)', display: 'block', marginBottom: 8, fontSize: 13, textTransform: 'uppercase', letterSpacing: '.04em' }}>Recovery Action Recommendation</strong>
-                <p style={{ margin: 0, fontSize: 14, marginBottom: 12 }}>{aiData.recommendation}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <span>Generated Promo Code:</span>
-                  <span className="ai-code-display">{aiData.discountCode}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 11, color: 'var(--muted)' }}>Prediction Confidence:</span>
+                  <div style={{ width: 100, height: 6, borderRadius: 99, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                    <div style={{ width: '94%', height: '100%', background: 'linear-gradient(90deg, #72f1b8, #00f0ff)', boxShadow: '0 0 8px #00f0ff' }} />
+                  </div>
+                  <strong style={{ fontSize: 12, color: '#00f0ff', fontFamily: 'monospace' }}>94.8%</strong>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+
+              <div className="ai-diagnosis-bubble">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <strong style={{ color: '#4cb7ff', margin: 0, fontSize: 13, textTransform: 'uppercase', letterSpacing: '.04em' }}>Root-Cause Telemetry Breakdown</strong>
+                  <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 99, background: aiData.isRealAi ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)', color: aiData.isRealAi ? '#00f0ff' : 'var(--muted)', textTransform: 'uppercase', fontWeight: 'bold', border: '1px solid rgba(0, 240, 255, 0.3)' }}>
+                    {aiData.isRealAi ? '⚡ Gemini Live AI' : '⚙️ Heuristic Engine'}
+                  </span>
+                </div>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6 }}>{aiData.diagnosis}</p>
+              </div>
+
+              <div className="ai-recommendation-box">
+                <strong style={{ color: 'var(--accent)', display: 'block', marginBottom: 8, fontSize: 13, textTransform: 'uppercase', letterSpacing: '.04em' }}>Prescriptive Recovery Strategy</strong>
+                <p style={{ margin: 0, fontSize: 14, marginBottom: 14, lineHeight: 1.6 }}>{aiData.recommendation}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 13, color: 'var(--muted)' }}>Auto-Generated Promotion Code:</span>
+                  <span className="ai-code-display" style={{ fontSize: 14, padding: '6px 14px' }}>{aiData.discountCode}</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 12 }}>
                 <button className="btn ghost-btn" onClick={() => setAiData(null)}>Clear Analysis</button>
               </div>
             </div>

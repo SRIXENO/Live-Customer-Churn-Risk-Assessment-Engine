@@ -40,6 +40,43 @@
   border-radius: $radius-xl;
 }
 
+// 3D Tilt Card Wrapper
+.tilt-card-wrapper {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+// Cyber Matrix Canvas Badge & Overlay
+.cyber-canvas-container {
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.04) 0%, rgba(4, 10, 20, 0.95) 75%);
+  position: relative;
+}
+
+.cyber-canvas-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 10px;
+  letter-spacing: .08em;
+  font-family: $font-family-mono;
+  color: $color-cyan;
+  background: rgba(4, 10, 20, 0.75);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: $radius-pill;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+  pointer-events: none;
+}
+
+.animated-counter {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
 .glass-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
