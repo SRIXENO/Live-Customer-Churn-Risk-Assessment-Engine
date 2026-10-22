@@ -4,14 +4,14 @@ export default function TableControls({ search, setSearch, tier, setTier, sort, 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minWidth: 280 }}>
       <div className="card" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, marginBottom: 0 }}>
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name or email" style={{ padding: 12, borderRadius: 12, border: '1px solid var(--line)', background: 'rgba(255,255,255,.04)', color: 'var(--text)' }} />
-        <select value={tier} onChange={e => setTier(e.target.value)} style={{ padding: 12, borderRadius: 12, border: '1px solid var(--line)', background: 'rgba(255,255,255,.04)', color: 'var(--text)' }}>
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name or email" style={{ padding: 12, borderRadius: 12, border: '1px solid var(--input-border)', background: 'var(--input-bg)', color: 'var(--text)' }} />
+        <select value={tier} onChange={e => setTier(e.target.value)} style={{ padding: 12, borderRadius: 12, border: '1px solid var(--input-border)', background: 'var(--input-bg)', color: 'var(--text)' }}>
           <option value="all">All Risk</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
-        <select value={sort} onChange={e => setSort(e.target.value)} style={{ padding: 12, borderRadius: 12, border: '1px solid var(--line)', background: 'rgba(255,255,255,.04)', color: 'var(--text)' }}>
+        <select value={sort} onChange={e => setSort(e.target.value)} style={{ padding: 12, borderRadius: 12, border: '1px solid var(--input-border)', background: 'var(--input-bg)', color: 'var(--text)' }}>
           <option value="riskScore:desc">Score desc</option>
           <option value="riskScore:asc">Score asc</option>
           <option value="name:asc">Name asc</option>

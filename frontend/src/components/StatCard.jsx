@@ -44,7 +44,7 @@ export default function StatCard({ title, value, color = '#00f0ff', trend = 'up'
         style={{ 
           position: 'relative',
           overflow: 'hidden',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          border: '1px solid var(--line)',
           borderTop: `3px solid ${color}`,
           boxShadow: hovered 
             ? `0 20px 45px rgba(0, 0, 0, 0.45), 0 0 20px rgba(${rgb}, 0.2)` 
@@ -133,7 +133,7 @@ export default function StatCard({ title, value, color = '#00f0ff', trend = 'up'
             fontSize: '32px', 
             fontWeight: 800, 
             fontFamily: "'JetBrains Mono', monospace",
-            color: '#fff',
+            color: 'var(--text)',
             marginTop: 6,
             position: 'relative',
             zIndex: 1,

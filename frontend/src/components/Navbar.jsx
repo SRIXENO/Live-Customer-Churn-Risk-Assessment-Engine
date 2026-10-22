@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Wifi, WifiOff, RefreshCw, Sparkles, Bell, Menu, Activity, ShieldAlert } from 'lucide-react';
+import { Wifi, WifiOff, RefreshCw, Sparkles, Bell, Menu, Activity, ShieldAlert, Sun, Moon } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
+import { useTheme } from '../context/ThemeContext';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
 export default function Navbar({ status = 'online' }) {
   const socket = useSocket();
   const liveStatus = socket?.status || status;
+  const { theme, toggleTheme, isDark } = useTheme();
   
   const [notifsOpen, setNotifsOpen] = useState(false);
   const [statusOpen, setStatusOpen] = useState(false);
@@ -125,12 +127,43 @@ export default function Navbar({ status = 'online' }) {
           <span>{liveStatus === 'online' ? 'Live' : liveStatus === 'reconnecting' ? 'Reconnecting...' : 'Offline'}</span>
         </div>
 
+        {/* Theme Toggle Switch Button */}
+        <button 
+          className="icon-pill" 
+          aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          onClick={toggleTheme}
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 6, 
+            padding: '8px 12px',
+            borderRadius: 999,
+            cursor: 'pointer',
+            border: '1px solid var(--line)',
+            background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(15,23,42,0.05)',
+            color: 'var(--text)'
+          }}
+        >
+          {isDark ? (
+            <>
+              <Sun size={15} style={{ color: '#ffb84d' }} />
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.04em' }}>LIGHT</span>
+            </>
+          ) : (
+            <>
+              <Moon size={15} style={{ color: '#0284c7' }} />
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.04em' }}>DARK</span>
+            </>
+          )}
+        </button>
+
         {/* Notification Bell Button */}
         <button 
           className="icon-pill" 
           aria-label="Notifications"
           onClick={handleToggleNotifs}
-          style={{ position: 'relative', border: notifsOpen ? '1px solid var(--accent)' : '1px solid rgba(255,255,255,0.08)' }}
+          style={{ position: 'relative', border: notifsOpen ? '1px solid var(--accent)' : '1px solid var(--line)' }}
         >
           <Bell size={16} />
           {/* Glowing indicator dot with radar ping ripple */}
@@ -142,21 +175,21 @@ export default function Navbar({ status = 'online' }) {
 
         {/* POPUP A: Latency & Socket Status Diagnostics */}
         {statusOpen && (
-          <div className="card glass-card" style={{ position: 'absolute', top: 58, right: 60, width: 280, zIndex: 3000, padding: 18, background: 'rgba(10,18,31,0.96)', border: '1px solid rgba(114,241,184,0.25)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+          <div className="card glass-card" style={{ position: 'absolute', top: 58, right: 60, width: 280, zIndex: 3000, padding: 18, background: 'var(--card-bg)', border: '1px solid var(--line-bright)', boxShadow: 'var(--shadow-card-hover)' }}>
             <h4 style={{ margin: '0 0 10px', fontSize: 13, textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '.06em' }}>System Connection</h4>
             
             <div style={{ display: 'grid', gap: 10, fontSize: 12, marginBottom: 14 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: 6 }}>
                 <span style={{ color: 'var(--muted)' }}>WebSocket Status</span>
-                <span style={{ color: '#72f1b8', fontWeight: 'bold' }}>{liveStatus.toUpperCase()}</span>
+                <span style={{ color: 'var(--accent)', fontWeight: 'bold' }}>{liveStatus.toUpperCase()}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.04)', paddingBottom: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: 6 }}>
                 <span style={{ color: 'var(--muted)' }}>Network Transport</span>
                 <span>WebSocket / WSS</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--muted)' }}>Heartbeat Engine</span>
-                <span style={{ color: '#00f0ff' }}>Realtime active</span>
+                <span style={{ color: 'var(--cyan)' }}>Realtime active</span>
               </div>
             </div>
 
@@ -182,9 +215,9 @@ export default function Navbar({ status = 'online' }) {
 
         {/* POPUP B: Notifications Dropdown */}
         {notifsOpen && (
-          <div className="card glass-card" style={{ position: 'absolute', top: 58, right: 0, width: 320, zIndex: 3000, padding: 18, background: 'rgba(10,18,31,0.96)', border: '1px solid rgba(0,240,255,0.25)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+          <div className="card glass-card" style={{ position: 'absolute', top: 58, right: 0, width: 320, zIndex: 3000, padding: 18, background: 'var(--card-bg)', border: '1px solid var(--line-bright)', boxShadow: 'var(--shadow-card-hover)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h4 style={{ margin: 0, fontSize: 13, textTransform: 'uppercase', color: '#00f0ff', letterSpacing: '.06em' }}>Live Alerts Stream</h4>
+              <h4 style={{ margin: 0, fontSize: 13, textTransform: 'uppercase', color: 'var(--cyan)', letterSpacing: '.06em' }}>Live Alerts Stream</h4>
               <button 
                 style={{ background: 'transparent', border: 0, color: 'var(--muted)', fontSize: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}
                 onClick={fetchNotifications}
@@ -200,13 +233,13 @@ export default function Navbar({ status = 'online' }) {
                 </div>
               ) : notifications.length ? (
                 notifications.map((n) => (
-                  <div key={n.id} style={{ padding: 10, borderRadius: 8, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', fontSize: 11, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <div key={n.id} style={{ padding: 10, borderRadius: 8, background: 'var(--input-bg)', border: '1px solid var(--line)', fontSize: 11, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                     <div style={{ marginTop: 2 }}>
                       {n.type === 'campaign' ? <Activity size={14} color="#4cb7ff" className="icon-activity" /> : <ShieldAlert size={14} color="#ff6b6b" className="icon-shield" />}
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-                        <strong style={{ color: '#fff' }}>{n.title}</strong>
+                        <strong style={{ color: 'var(--text)' }}>{n.title}</strong>
                         <span style={{ color: 'var(--muted)', fontSize: 9 }}>
                           {n.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>

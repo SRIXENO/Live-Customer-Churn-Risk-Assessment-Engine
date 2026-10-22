@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * 3D Interactive Cyber Risk Neural Matrix Canvas
@@ -6,6 +7,7 @@ import React, { useEffect, useRef } from 'react';
  */
 export default function CyberMatrixCanvas({ height = 260, nodeCount = 45 }) {
   const canvasRef = useRef(null);
+  const { isDark } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -26,7 +28,9 @@ export default function CyberMatrixCanvas({ height = 260, nodeCount = 45 }) {
 
     // Generate 3D spherical nodes
     const particles = [];
-    const colors = ['#72f1b8', '#00f0ff', '#4cb7ff', '#ffb84d', '#ff6b6b'];
+    const colors = isDark 
+      ? ['#72f1b8', '#00f0ff', '#4cb7ff', '#ffb84d', '#ff6b6b']
+      : ['#059669', '#0284c7', '#2563eb', '#d97706', '#dc2626'];
 
     for (let i = 0; i < nodeCount; i++) {
       const theta = Math.random() * 2 * Math.PI;
@@ -102,7 +106,7 @@ export default function CyberMatrixCanvas({ height = 260, nodeCount = 45 }) {
 
           if (dist < 65) {
             const alpha = (1 - dist / 65) * 0.22 * Math.min(projected[i].scale, projected[j].scale);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.strokeStyle = isDark ? `rgba(0, 240, 255, ${alpha})` : `rgba(2, 132, 199, ${alpha * 1.8})`;
             ctx.beginPath();
             ctx.moveTo(projected[i].px, projected[i].py);
             ctx.lineTo(projected[j].px, projected[j].py);
@@ -115,7 +119,7 @@ export default function CyberMatrixCanvas({ height = 260, nodeCount = 45 }) {
       projected.forEach((p) => {
         if (p.scale <= 0) return;
         ctx.save();
-        ctx.shadowBlur = 10 * p.scale;
+        ctx.shadowBlur = (isDark ? 10 : 4) * p.scale;
         ctx.shadowColor = p.color;
         ctx.fillStyle = p.color;
         ctx.beginPath();
@@ -134,7 +138,7 @@ export default function CyberMatrixCanvas({ height = 260, nodeCount = 45 }) {
       window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [height, nodeCount]);
+  }, [height, nodeCount, isDark]);
 
   return (
     <div className="cyber-canvas-container" style={{ position: 'relative', width: '100%', height, overflow: 'hidden' }}>

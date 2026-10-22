@@ -233,8 +233,8 @@ export default function Campaigns() {
             </div>
 
             {/* Email Shell mockup */}
-            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)', background: '#0e1b2d' }}>
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderBottom: '1px solid rgba(255,255,255,0.05)', fontSize: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ borderRadius: 12, overflow: 'hidden', border: '1px solid var(--line)', background: 'var(--panel)' }}>
+              <div style={{ background: 'var(--input-bg)', padding: 12, borderBottom: '1px solid var(--line)', fontSize: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: 'var(--muted)' }}>Subject:</span>
                 {templateType === 'discount' && (
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffb84d" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -272,7 +272,7 @@ export default function Campaigns() {
                   <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                   <line x1="12" y1="22.08" x2="12" y2="12" />
                 </svg>
-                <h2 style={{ fontSize: 20, margin: '0 0 12px', color: '#fff' }}>
+                <h2 style={{ fontSize: 20, margin: '0 0 12px', color: 'var(--text)' }}>
                   {templateType === 'discount' ? 'A Special Gift For You' : templateType === 'cart' ? 'Did You Leave Something Behind?' : 'We Value Your Partnership'}
                 </h2>
                 <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, maxWidth: 360, margin: '0 auto 20px' }}>

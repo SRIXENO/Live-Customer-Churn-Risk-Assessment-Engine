@@ -319,7 +319,7 @@ export default function Dashboard() {
             </div>
 
             {/* Radar Mini-Monitor Screen */}
-            <div style={{ background: 'rgba(4,10,20,0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: 16, minHeight: 180, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div style={{ background: 'var(--panel-2)', border: '1px solid var(--line)', borderRadius: 12, padding: 16, minHeight: 180, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <span style={{ fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.04em', display: 'block', marginBottom: 8 }}>Radar Telemetry Inspector</span>
                 {hoveredGroup || selectedGroupInfo ? (
@@ -327,25 +327,25 @@ export default function Dashboard() {
                     const node = hoveredGroup || selectedGroupInfo;
                     return (
                       <div>
-                        <strong style={{ fontSize: 14, display: 'block', color: '#fff', marginBottom: 2 }}>Risk Score Level: {node.score}/100</strong>
+                        <strong style={{ fontSize: 14, display: 'block', color: 'var(--text)', marginBottom: 2 }}>Risk Score Level: {node.score}/100</strong>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 10, fontSize: 11, marginBottom: 12, marginTop: 8 }}>
                           <div>
                             <span style={{ color: 'var(--muted)', display: 'block' }}>Group Volume</span>
-                            <strong style={{ color: '#fff' }}>{node.customers.length} account(s)</strong>
+                            <strong style={{ color: 'var(--text)' }}>{node.customers.length} account(s)</strong>
                           </div>
                           <div>
                             <span style={{ color: 'var(--muted)', display: 'block' }}>Risk Tier</span>
-                            <strong style={{ textTransform: 'uppercase', color: node.tier === 'high' ? '#ff6b6b' : node.tier === 'medium' ? '#ffb84d' : '#72f1b8' }}>{node.tier}</strong>
+                            <strong style={{ textTransform: 'uppercase', color: node.tier === 'high' ? 'var(--danger)' : node.tier === 'medium' ? 'var(--warn)' : 'var(--accent)' }}>{node.tier}</strong>
                           </div>
                         </div>
 
-                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 8 }}>
+                        <div style={{ borderTop: '1px solid var(--line)', paddingTop: 8 }}>
                           <span style={{ fontSize: 10, color: 'var(--muted)', display: 'block', marginBottom: 6 }}>Cohort Members:</span>
                           <div style={{ maxHeight: 90, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
                             {node.customers.map(c => (
                               <div key={c._id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
-                                <span style={{ color: '#fff', fontWeight: 'bold' }}>{c.name}</span>
+                                <span style={{ color: 'var(--text)', fontWeight: 'bold' }}>{c.name}</span>
                                 <span style={{ color: 'var(--muted)' }}>Score: {c.riskScore}</span>
                               </div>
                             ))}
@@ -467,8 +467,8 @@ export default function Dashboard() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <strong style={{ color: '#fff', fontSize: '13px' }}>{act.customerName}</strong>
-                        <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4', fontFamily: "'JetBrains Mono', monospace" }}>{act.description}</p>
+                        <strong style={{ color: 'var(--text)', fontSize: '13px' }}>{act.customerName}</strong>
+                        <p style={{ margin: 0, fontSize: '11px', color: 'var(--muted)', lineHeight: '1.4', fontFamily: "'JetBrains Mono', monospace" }}>{act.description}</p>
                       </div>
                       {act.riskScore !== undefined && (
                         <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', background: act.tier === 'high' ? 'rgba(255,107,107,0.1)' : 'rgba(255,184,77,0.1)', color: act.tier === 'high' ? '#ff6b6b' : '#ffb84d', fontWeight: 'bold', alignSelf: 'flex-start' }}>
@@ -479,21 +479,21 @@ export default function Dashboard() {
 
                     {/* Metadata tags */}
                     {!isSystem && (
-                      <div style={{ display: 'flex', gap: '10px', fontSize: '9px', color: 'var(--muted)', borderTop: '1px dashed rgba(255,255,255,0.04)', paddingTop: '6px' }}>
-                        <span>Platform: <span style={{ color: '#fff' }}>{locationMarker}</span></span>
+                      <div style={{ display: 'flex', gap: '10px', fontSize: '9px', color: 'var(--muted)', borderTop: '1px dashed var(--line)', paddingTop: '6px' }}>
+                        <span>Platform: <span style={{ color: 'var(--text)' }}>{locationMarker}</span></span>
                         <span>•</span>
-                        <span>Outreach: <span style={{ color: '#fff' }}>Simulated</span></span>
+                        <span>Outreach: <span style={{ color: 'var(--text)' }}>Simulated</span></span>
                       </div>
                     )}
 
                     {/* Actions Bar */}
                     {!isSystem && (
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '4px', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '8px' }}>
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '4px', borderTop: '1px solid var(--line)', paddingTop: '8px' }}>
                         <button 
                           type="button" 
                           className="btn ghost-btn" 
                           onClick={() => handleQuickRetain(act.customerId, act.customerName)}
-                          style={{ padding: '4px 8px', fontSize: '9px', height: 'auto', background: 'rgba(0, 240, 255, 0.05)', borderColor: 'rgba(0, 240, 255, 0.15)', color: '#00f0ff', fontWeight: 'bold' }}
+                          style={{ padding: '4px 8px', fontSize: '9px', height: 'auto', background: 'var(--cyan-dim)', borderColor: 'var(--line)', color: 'var(--cyan)', fontWeight: 'bold' }}
                         >
                           ⚡ Quick Retain
                         </button>
@@ -501,7 +501,7 @@ export default function Dashboard() {
                           type="button" 
                           className="btn ghost-btn" 
                           onClick={() => nav(`/customers/${act.customerId}`)}
-                          style={{ padding: '4px 8px', fontSize: '9px', height: 'auto', color: '#fff' }}
+                          style={{ padding: '4px 8px', fontSize: '9px', height: 'auto', color: 'var(--text)' }}
                         >
                           👤 Profile
                         </button>

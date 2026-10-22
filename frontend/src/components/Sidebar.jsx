@@ -1,14 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-import { LayoutDashboard, LineChart, Megaphone, GraduationCap, Shield, ArrowUpRight, X, LogOut } from 'lucide-react';
+import { LayoutDashboard, LineChart, Megaphone, GraduationCap, Shield, ArrowUpRight, X, LogOut, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
   const socket = useSocket();
   const socketStatus = socket?.status || 'offline';
   const auth = useAuth();
+  const { theme, toggleTheme, isDark } = useTheme();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -83,8 +85,26 @@ export default function Sidebar() {
         </NavLink>
         <button 
           className="side-link" 
+          onClick={toggleTheme}
+          style={{ background: 'transparent', border: 0, width: '100%', cursor: 'pointer', textAlign: 'left', marginTop: 8 }}
+          title={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
+        >
+          {isDark ? (
+            <>
+              <Sun size={16} style={{ color: '#ffb84d' }} />
+              <span>Light Mode</span>
+            </>
+          ) : (
+            <>
+              <Moon size={16} style={{ color: '#0284c7' }} />
+              <span>Dark Mode</span>
+            </>
+          )}
+        </button>
+        <button 
+          className="side-link" 
           onClick={handleLogout}
-          style={{ background: 'transparent', border: 0, width: '100%', cursor: 'pointer', textAlign: 'left', color: '#ff6b6b', marginTop: 12 }}
+          style={{ background: 'transparent', border: 0, width: '100%', cursor: 'pointer', textAlign: 'left', color: '#ff6b6b', marginTop: 4 }}
         >
           <LogOut size={16} style={{ color: '#ff6b6b' }} />
           <span>Logout</span>

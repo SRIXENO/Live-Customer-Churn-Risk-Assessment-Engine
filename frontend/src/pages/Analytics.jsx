@@ -325,7 +325,7 @@ export default function Analytics() {
               <div>
                 <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6, color: 'var(--muted)' }}>
                   <span>Avg Customer Lifetime Value (CLV):</span>
-                  <strong style={{ color: '#fff' }}>₹{clv.toLocaleString()}</strong>
+                  <strong style={{ color: 'var(--text)' }}>₹{clv.toLocaleString()}</strong>
                 </label>
                 <input 
                   type="range" 
@@ -372,16 +372,16 @@ export default function Analytics() {
             </div>
 
             {/* Calculated outcomes */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12, background: 'rgba(255,255,255,0.02)', padding: 18, borderRadius: 12, border: '1px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12, background: 'var(--input-bg)', padding: 18, borderRadius: 12, border: '1px solid var(--line)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
                 <span style={{ color: 'var(--muted)' }}>Customers Under Risk:</span>
-                <strong style={{ color: '#fff' }}>{simCustomers} accounts</strong>
+                <strong style={{ color: 'var(--text)' }}>{simCustomers} accounts</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
                 <span style={{ color: 'var(--muted)' }}>Gross Revenue At Risk:</span>
                 <strong style={{ color: '#ff6b6b' }}>₹{(simCustomers * clv).toLocaleString()}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, borderBottom: '1px dashed rgba(255,255,255,0.08)', paddingBottom: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, borderBottom: '1px dashed var(--line)', paddingBottom: 8 }}>
                 <span style={{ color: 'var(--muted)' }}>Projected Winbacks:</span>
                 <strong style={{ color: '#72f1b8' }}>{Math.round(simCustomers * (recoveryRate / 100))} accounts</strong>
               </div>
@@ -393,9 +393,9 @@ export default function Analytics() {
                 <span style={{ color: 'var(--muted)' }}>Winback Cost (Discounts):</span>
                 <strong style={{ color: '#ffb84d' }}>₹{(Math.round(simCustomers * (recoveryRate / 100)) * clv * (couponValue / 100)).toLocaleString()}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 'bold', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 10, marginTop: 4 }}>
-                <span style={{ color: '#00f0ff' }}>Net Recovery ROI:</span>
-                <span style={{ color: '#00f0ff', textShadow: '0 0 10px rgba(0, 240, 255, 0.4)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 'bold', borderTop: '1px solid var(--line)', paddingTop: 10, marginTop: 4 }}>
+                <span style={{ color: 'var(--cyan)' }}>Net Recovery ROI:</span>
+                <span style={{ color: 'var(--cyan)', textShadow: '0 0 10px rgba(0, 240, 255, 0.4)' }}>
                   ₹{(Math.round(simCustomers * (recoveryRate / 100)) * clv - (Math.round(simCustomers * (recoveryRate / 100)) * clv * (couponValue / 100))).toLocaleString()}
                 </span>
               </div>
@@ -413,10 +413,10 @@ export default function Analytics() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                <span style={{ color: '#fff' }}>Inactivity & Login Decay</span>
+                <span style={{ color: 'var(--text)' }}>Inactivity & Login Decay</span>
                 <strong style={{ color: 'var(--danger)' }}>40% Weight Impact</strong>
               </div>
-              <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 99 }}>
+              <div style={{ width: '100%', height: 6, background: 'var(--line)', borderRadius: 99 }}>
                 <div style={{ width: '40%', height: '100%', borderRadius: 99, background: 'var(--danger)' }} />
               </div>
               <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--muted)' }}>Users crossing 60 days inactivity have an elevated rate of exit conversion.</p>
@@ -424,10 +424,10 @@ export default function Analytics() {
 
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                <span style={{ color: '#fff' }}>Checkout Cart Abandonment</span>
+                <span style={{ color: 'var(--text)' }}>Checkout Cart Abandonment</span>
                 <strong style={{ color: 'var(--warn)' }}>30% Weight Impact</strong>
               </div>
-              <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 99 }}>
+              <div style={{ width: '100%', height: 6, background: 'var(--line)', borderRadius: 99 }}>
                 <div style={{ width: '30%', height: '100%', borderRadius: 99, background: 'var(--warn)' }} />
               </div>
               <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--muted)' }}>High shipping charges and payment checkout drop-offs affect conversion.</p>
@@ -435,10 +435,10 @@ export default function Analytics() {
 
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                <span style={{ color: '#fff' }}>Order Purchase Frequency Decay</span>
+                <span style={{ color: 'var(--text)' }}>Order Purchase Frequency Decay</span>
                 <strong style={{ color: 'var(--accent)' }}>30% Weight Impact</strong>
               </div>
-              <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 99 }}>
+              <div style={{ width: '100%', height: 6, background: 'var(--line)', borderRadius: 99 }}>
                 <div style={{ width: '30%', height: '100%', borderRadius: 99, background: 'var(--accent)' }} />
               </div>
               <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--muted)' }}>Decrease in historical purchase patterns indicates a drop in interest.</p>
