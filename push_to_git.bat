@@ -6,10 +6,15 @@ echo   Remote: https://github.com/SRIXENO/Live-Customer-Churn-Risk-Assessment-En
 echo ========================================================
 echo.
 
-set PATH=C:\Users\mrvss\AppData\Local\Programs\Git\cmd;%PATH%
-git status
+set PATH=C:\Users\mrvss\AppData\Local\Programs\Git\cmd;C:\Users\mrvss\AppData\Local\Programs\Git\mingw64\bin;%PATH%
+git config user.name "SRIDHAR"
+git config user.email "mrvssridhar3@gmail.com"
+git config credential.helper manager
+
+echo Current commit status:
+git status -s
 echo.
-echo Pushing commit(s) to origin main...
+echo Attempting git push to origin main...
 git push -u origin main
 
 echo.
@@ -19,9 +24,8 @@ if %ERRORLEVEL% equ 0 (
     echo ========================================================
 ) else (
     echo ========================================================
-    echo   [NOTICE] Authentication may be required.
-    echo   If prompted, sign in via your browser or provide
-    echo   your GitHub Personal Access Token (PAT).
+    echo   [NOTICE] If GitHub requested login, complete the sign-in
+    echo   in your browser window and run this script again.
     echo ========================================================
 )
 echo.
