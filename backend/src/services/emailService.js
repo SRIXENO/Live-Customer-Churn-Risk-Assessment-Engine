@@ -1,20 +1,36 @@
 const BREVO_EMAIL_ENDPOINT = 'https://api.brevo.com/v3/smtp/email';
 
+function escapeHtml(value = '') {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
+
+function safeLink(value) {
+  if (!value) return '';
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) ? escapeHtml(url.href) : '';
+  } catch {
+    return '';
+  }
+}
+
 function buildHtml({ title, customerName, body, ctaLabel, ctaUrl, details = [] }) {
   const rows = details
-    .map(([label, value]) => `<tr><td style="padding:6px 0;color:#666">${label}</td><td style="padding:6px 0;text-align:right"><strong>${value}</strong></td></tr>`)
+    .map(([label, value]) => `<tr><td style="padding:6px 0;color:#666">${escapeHtml(label)}</td><td style="padding:6px 0;text-align:right"><strong>${escapeHtml(value)}</strong></td></tr>`)
     .join('');
   return `
   <div style="font-family:system-ui,sans-serif;background:#f5f7fb;padding:24px">
     <div style="max-width:640px;margin:auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb">
       <div style="padding:24px;border-top:6px solid #4cb7ff">
         <h1 style="margin:0 0 8px;color:#0f172a">${title}</h1>
-        <p style="margin:0;color:#334155">Hi ${customerName || 'there'},</p>
+        <p style="margin:0;color:#334155">Hi ${escapeHtml(customerName || 'there')},</p>
       </div>
       <div style="padding:0 24px 24px;color:#334155;line-height:1.6">
-        <p>${body}</p>
+        <p>${escapeHtml(body)}</p>
         ${rows ? `<table style="width:100%;margin:20px 0;border-collapse:collapse">${rows}</table>` : ''}
-        ${ctaUrl ? `<a href="${ctaUrl}" style="display:inline-block;background:#4cb7ff;color:#fff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:700">${ctaLabel}</a>` : ''}
+        ${safeLink(ctaUrl) ? `<a href="${safeLink(ctaUrl)}" style="display:inline-block;background:#4cb7ff;color:#fff;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:700">${escapeHtml(ctaLabel)}</a>` : ''}
       </div>
     </div>
   </div>`;
@@ -28,27 +44,36 @@ async function sendBrevoEmail({ to, subject, htmlContent }) {
     throw new Error('Brevo credentials are missing');
   }
 
-  const response = await fetch(BREVO_EMAIL_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'accept': 'application/json',
-      'api-key': apiKey,
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      sender: { name: senderName, email: senderEmail },
-      to: [{ email: to }],
-      subject,
-      htmlContent
-    })
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Brevo send failed: ${text}`);
+  let response;
+  try {
+    response = await fetch(BREVO_EMAIL_ENDPOINT, {
+      method: 'POST',
+      signal: AbortSignal.timeout(15000),
+      headers: {
+        accept: 'application/json',
+        'api-key': apiKey,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: to }],
+        subject,
+        htmlContent
+      })
+    });
+  } catch (error) {
+    if (error.name === 'TimeoutError' || error.name === 'AbortError') {
+      throw new Error('Brevo request timed out after 15 seconds');
+    }
+    throw new Error(`Could not reach Brevo: ${error.message}`);
   }
 
-  return response.json();
+  const responseText = await response.text();
+  if (!response.ok) {
+    throw new Error(`Brevo send failed (${response.status}): ${responseText || response.statusText}`);
+  }
+
+  return responseText ? JSON.parse(responseText) : { messageId: null };
 }
 
 async function sendCartEmail(customer, extras = {}) {

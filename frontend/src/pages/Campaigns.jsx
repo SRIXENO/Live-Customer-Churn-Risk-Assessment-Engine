@@ -110,8 +110,9 @@ export default function Campaigns() {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Bulk dispatch operation failed');
-      setSendingStatus('Error: Dispatch failed');
+      const message = err?.response?.data?.message || err?.message || 'Bulk dispatch operation failed';
+      toast.error(message);
+      setSendingStatus(`Error: ${message}`);
     } finally {
       setTimeout(() => {
         setIsSending(false);

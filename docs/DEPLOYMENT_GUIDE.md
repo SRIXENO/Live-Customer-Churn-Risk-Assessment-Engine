@@ -23,6 +23,9 @@ Step 2 - Deploy Backend on Render:
    CLIENT_URL = (your Vercel URL)
    RENDER_SELF_URL = (your Render URL)
    SCORING_INTERVAL_MINUTES = 30
+   BREVO_API_KEY = (your Brevo API v3 key)
+   BREVO_SENDER_EMAIL = (a verified sender address in Brevo)
+   BREVO_SENDER_NAME = Xeno Products
    CLOUDINARY_CLOUD_NAME = (your cloud name)
    CLOUDINARY_API_KEY = (your api key)
    CLOUDINARY_API_SECRET = (your api secret)
@@ -37,15 +40,12 @@ Step 3 - Deploy Frontend on Vercel:
 5. Go to Environment Variables -> Add these:
    VITE_API_URL = https://(your-render-url)/api
    VITE_SOCKET_URL = https://(your-render-url)
-   VITE_EMAILJS_SERVICE_ID = (your service id)
-   VITE_EMAILJS_TEMPLATE_ID_DISCOUNT = (template id 1)
-   VITE_EMAILJS_TEMPLATE_ID_CART = (template id 2)
-   VITE_EMAILJS_TEMPLATE_ID_LOYALTY = (template id 3)
-   VITE_EMAILJS_PUBLIC_KEY = (your public key)
    VITE_CLOUDINARY_CLOUD_NAME = (your cloud name)
    VITE_CLOUDINARY_UPLOAD_PRESET = xeno_dashboard
 6. Click Deploy
 7. After deploy -> go to Deployments -> click Redeploy
+
+Email delivery is sent by the backend through Brevo. Add the Brevo variables to the backend service, never to Vercel or a `VITE_` variable. In Brevo, verify the sender address/domain before sending. If either backend variable is missing, campaign sends fail with a clear configuration error.
 
 Step 4 - Verify:
 Open your Vercel URL

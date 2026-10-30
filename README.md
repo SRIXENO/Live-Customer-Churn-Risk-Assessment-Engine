@@ -202,7 +202,12 @@ JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173
 GEMINI_API_KEY=your_gemini_api_key_optional
+BREVO_API_KEY=your_brevo_api_v3_key
+BREVO_SENDER_EMAIL=verified-sender@example.com
+BREVO_SENDER_NAME=Xeno Products
 ```
+
+Brevo sends are performed by the backend. Verify the sender address/domain in Brevo and keep the API key in `backend/.env` (or the backend host's secret environment settings); do not expose it in frontend `VITE_` variables.
 
 Populate the database with 150 synthetic customer profiles:
 ```bash

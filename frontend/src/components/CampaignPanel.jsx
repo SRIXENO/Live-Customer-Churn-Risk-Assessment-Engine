@@ -22,7 +22,7 @@ export default function CampaignPanel({ customer, onClose }) {
       toast.success(`Email sent to ${customer.name}`);
       onClose?.();
     } catch (error) {
-      toast.error(error?.text || 'Failed to send email');
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to send email');
     } finally {
       setSending(false);
     }

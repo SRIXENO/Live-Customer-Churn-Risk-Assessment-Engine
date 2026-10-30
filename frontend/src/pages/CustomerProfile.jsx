@@ -856,24 +856,24 @@ export default function CustomerProfile() {
             try {
               await sendCartEmail(data, { order_id: data._id, checkout_link: window.location.origin });
               toast.success(`Cart email sent to ${data.name}`);
-            } catch {
-              toast.error('Cart email failed');
+            } catch (error) {
+              toast.error(error?.response?.data?.message || error?.message || 'Cart email failed');
             }
           }}>Send Cart Email</button>
           <button className="btn" onClick={async () => {
             try {
               await sendDiscountEmail(data, { discount_percent: '15', checkout_link: window.location.origin });
               toast.success(`Discount email sent to ${data.name}`);
-            } catch {
-              toast.error('Discount email failed');
+            } catch (error) {
+              toast.error(error?.response?.data?.message || error?.message || 'Discount email failed');
             }
           }}>Send Discount Email</button>
           <button className="btn" onClick={async () => {
             try {
               await sendLoyaltyEmail(data, { reward_text: 'Special loyalty reward available', survey_link: window.location.origin });
               toast.success(`Loyalty email sent to ${data.name}`);
-            } catch {
-              toast.error('Loyalty email failed');
+            } catch (error) {
+              toast.error(error?.response?.data?.message || error?.message || 'Loyalty email failed');
             }
           }}>Send Loyalty Email</button>
           <button className="btn" onClick={() => setOverrideOpen(true)}>Override Risk Tier</button>
