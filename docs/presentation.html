@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Review Presentation - Live Customer Churn Risk Assessment Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f2c59;
+      --primary-dark: #071936;
+      --accent-red: #c02626;
+      --accent-blue: #1d4ed8;
+      --accent-emerald: #059669;
+      --accent-amber: #d97706;
+      --bg-page: #0b1120;
+      --slide-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-red: #b91c1c;
+      --table-header: #1e3a8a;
+      --table-row-alt: #f8fafc;
+      --table-border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 20px 0;
+    }
+
+    /* Presentation Frame */
+    .deck-container {
+      position: relative;
+      width: 1100px;
+      height: 720px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--slide-bg);
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      padding: 30px 45px 25px 45px;
+      background: #ffffff;
+      border: 2px solid #b91c1c;
+      border-radius: 6px;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    /* Institutional Header */
+    .inst-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 12px;
+    }
+
+    .inst-logo-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid #1e3a8a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #1e3a8a;
+      font-size: 20px;
+      background: #eff6ff;
+    }
+
+    .logo-caption {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1e3a8a;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .inst-text h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .inst-text p {
+      font-size: 10.5px;
+      color: #475569;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Slide Titles */
+    .slide-title-bar {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .slide-title-bar h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: inline-block;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #1e3a8a;
+    }
+
+    .slide-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: #b91c1c;
+      margin-top: 3px;
+    }
+
+    /* Content Area */
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #1e293b;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: auto;
+    }
+
+    .slide-footer .footer-center {
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #0f172a;
+    }
+
+    /* Custom Tables */
+    .pres-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin: 8px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .pres-table th {
+      background: var(--table-header);
+      color: #ffffff;
+      padding: 7px 10px;
+      font-weight: 700;
+      text-align: left;
+      border: 1px solid #1e3a8a;
+    }
+
+    .pres-table td {
+      padding: 6px 10px;
+      border: 1px solid var(--table-border);
+      color: #1e293b;
+      vertical-align: middle;
+    }
+
+    .pres-table tr:nth-child(even) {
+      background: var(--table-row-alt);
+    }
+
+    /* Cards & Grids */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .grid-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #f8fafc;
+      position: relative;
+    }
+
+    .grid-card.ui {
+      border-left: 4px solid #0284c7;
+    }
+
+    .grid-card.api {
+      border-left: 4px solid #059669;
+    }
+
+    .grid-card.ai {
+      border-left: 4px solid #7c3aed;
+    }
+
+    .grid-card.dev {
+      border-left: 4px solid #ea580c;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-badge.ui {
+      color: #0284c7;
+    }
+
+    .card-badge.api {
+      color: #059669;
+    }
+
+    .card-badge.ai {
+      color: #7c3aed;
+    }
+
+    .card-badge.dev {
+      color: #ea580c;
+    }
+
+    .grid-card ul {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 11.5px;
+    }
+
+    .grid-card ul li {
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .grid-card ul li strong {
+      color: #0f172a;
+    }
+
+    /* Bullet Lists */
+    .bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      top: -1px;
+      color: #b91c1c;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* Title Slide Specifics */
+    .title-banner {
+      text-align: center;
+      margin: 15px 0 10px 0;
+    }
+
+    .title-banner h2 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #b91c1c;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .title-banner h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-top: 4px;
+    }
+
+    .project-name-box {
+      background: #eff6ff;
+      border: 2px solid #1d4ed8;
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-align: center;
+      margin: 12px 0 18px 0;
+    }
+
+    .project-name-box h1 {
+      font-size: 21px;
+      font-weight: 800;
+      color: #0f2c59;
+      line-height: 1.3;
+      letter-spacing: 0.5px;
+    }
+
+    .domain-tag {
+      font-size: 13px;
+      font-weight: 700;
+      color: #b91c1c;
+      margin-top: 8px;
+    }
+
+    .members-guide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+
+    .personnel-col h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 3px;
+    }
+
+    .member-item {
+      font-size: 12.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .member-item span {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .guide-box {
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: #1e293b;
+    }
+
+    .guide-box strong {
+      color: #0f172a;
+      font-size: 13.5px;
+    }
+
+    /* Formula & Math Card */
+    .formula-card {
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 12px 18px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .formula-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f2c59;
+    }
+
+    .factor-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .factor-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    .factor-box h5 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+
+    .factor-box .weight {
+      font-size: 14px;
+      font-weight: 800;
+      color: #b91c1c;
+    }
+
+    .factor-box p {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* Flow Boxes */
+    .flow-steps {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .flow-step-box {
+      flex: 1;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1e293b;
+      position: relative;
+    }
+
+    .flow-step-box.highlight {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+    }
+
+    .flow-step-box .step-num {
+      font-size: 10px;
+      color: #b91c1c;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Gantt chart mini */
+    .gantt-table th {
+      text-align: center;
+      padding: 6px 3px;
+      font-size: 10.5px;
+    }
+
+    .gantt-table td {
+      text-align: center;
+      padding: 5px 3px;
+      font-size: 10.5px;
+    }
+
+    .gantt-bar {
+      background: #10b981;
+      color: #ffffff;
+      border-radius: 3px;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 4px;
+      display: inline-block;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn {
+      background: #1e3a8a;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .slide-counter {
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .kbd-hint {
+      color: #64748b;
+      font-size: 11px;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+
+      .controls-bar,
+      .kbd-hint {
+        display: none !important;
+      }
+
+      .deck-container {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      .slide {
+        display: flex !important;
+        position: relative !important;
+        page-break-after: always;
+        height: 100vh;
+        width: 100vw;
+        border: none;
+        border-radius: 0;
+        padding: 25px 35px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Slide Deck Container -->
+  <div class="deck-container">
+
+    <!-- SLIDE 1: Title Slide -->
+    <div class="slide active" id="slide-1">
+      <div class="inst-header">
+        <div class="inst-logo-badge">
+          <div class="logo-circle">BIT</div>
+          <span class="logo-caption">Stay Ahead</span>
+        </div>
+        <div class="inst-text">
+          <h1>Bannari Amman Institute of Technology</h1>
+          <p>An Autonomous Institution Affiliated to Anna University - Chennai • Approved by AICTE • Accredited by NAAC
+            with 'A+' Grade</p>
+          <p><strong>SATHYAMANGALAM - 638401, ERODE DISTRICT, TAMILNADU</strong> | Ph: 04295-226000 | Web:
+            www.bitsathy.ac.in</p>
+        </div>
+      </div>
+
+      <div class="title-banner">
+        <h2>Academic Year 2026 - 27</h2>
+        <h3>S7 PROJECT WORK I - FINAL REVIEW / FINAL VIVA VOCE</h3>
+      </div>
+
+      <div class="project-name-box">
+        <h1>LIVE CUSTOMER CHURN RISK ASSESSMENT ENGINE WITH REAL-TIME RECOMMENDATION OVERRIDES FOR E-COMMERCE</h1>
+        <div class="domain-tag">Domain: Real-Time Web Telemetry, Generative AI & Data Science (BIP ID: 2026AC395)</div>
+      </div>
+
+      <div class="members-guide-grid">
+        <div class="personnel-col">
+          <h4>Batch Members</h4>
+          <div class="member-item">1. LOGESH M <span>(7376241CS505)</span> — Backend & WebSocket Lead</div>
+          <div class="member-item">2. SIRANJEEVI S <span>(7376241CS514)</span> — Cloud DB & Security Lead</div>
+          <div class="member-item">3. SRIDHAR M <span>(7376241CS515)</span> — Frontend UI/UX & Deployment Lead</div>
+        </div>
+        <div class="personnel-col">
+          <h4>Project Guide & Department Head</h4>
+          <div class="guide-box">
+            <strong>Mrs. SRISOUNDARYAA S S P</strong><br>
+            Supervisor / Associate Professor<br>
+            Department of Artificial Intelligence and Data Science<br><br>
+            <strong>Dr. SASIKALA D</strong><br>
+            Head of the Department, Department of Computer Science and Engineering
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 1 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Aim & Objectives -->
+    <div class="slide" id="slide-2">
+      <div class="slide-title-bar">
+        <h2>Aim & Objectives of the Project</h2>
+        <div class="slide-subtitle">(Problem Statement)</div>
+      </div>
+
+      <div class="slide-content">
+        <div
+          style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 10px 14px; margin-bottom: 12px; border-radius: 4px;">
+          <strong style="color: #1e3a8a; font-size: 14px;">AIM</strong><br>
+          To provide e-commerce enterprises with an event-driven customer retention platform that calculates dynamic
+          mathematical churn risk scores from continuous behavioral telemetry, triggers automated recovery campaigns via
+          WebSockets, and provides a Multi-Agent AI Negotiation Arena backed by a Human-in-the-Loop manager override
+          registry.
+        </div>
+
+        <strong
+          style="color: #b91c1c; font-size: 13.5px; text-transform: uppercase; margin-bottom: 6px; display: block;">OBJECTIVES</strong>
+        <ul class="bullet-list">
+          <li><strong>Real-Time Mathematical Scoring:</strong> Formulate and evaluate a bounded, explainable
+            multi-variable mathematical risk equation combining Temporal Inactivity (40%), Cart Abandonment (30%), and
+            Purchase Decay (30%).</li>
+          <li><strong>Zero-Latency Telemetry Streaming:</strong> Build an asynchronous 20-second stochastic telemetry
+            simulation worker streaming score updates via Socket.io WebSockets.</li>
+          <li><strong>Autonomous Autopilot Interventions:</strong> Automatically trigger and dispatch 20% promotional
+            discount vouchers and cart checkout reminders via transactional email gateways when scores breach thresholds
+            (&ge; 70).</li>
+          <li><strong>Multi-Agent Generative AI Negotiation Arena:</strong> Model multi-turn retention dialogues between
+            modeled customer personas (Price-Sensitive, Frustrated, Indifferent) and agent strategies using Google
+            Gemini 1.5 Flash LLM.</li>
+          <li><strong>Counterfactual Scenario Branching:</strong> Provide a causal "what-if" policy simulation framework
+            to project score drops (&Delta;S) before real-world outreach.</li>
+          <li><strong>Human-in-the-Loop (HITL) Governance:</strong> Enforce mandatory audit trails and justification
+            logging for manager overrides in MongoDB Atlas to ensure algorithmic compliance.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 2 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Literature Survey 1 -->
+    <div class="slide" id="slide-3">
+      <div class="slide-title-bar">
+        <h2>Literature Survey</h2>
+        <div class="slide-subtitle">Analysis of Published Research (Part 1)</div>
+      </div>
+
+      <div class="slide-content">
+        <table class="pres-table">
+          <thead>
+            <tr>
+              <th style="width: 5%;">Sl.</th>
+              <th style="width: 32%;">Journal Paper Title with Author (IEEE Format)</th>
+              <th style="width: 35%;">Works carried out (Methods / Software / Algorithms / Techniques used)</th>
+              <th style="width: 28%;">Information gathered relevant to our project</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>C. F. Tsai and M. Y. Lu, "Customer churn prediction by hybrid neural networks," <em>Expert Systems
+                  with Applications</em>, vol. 36, no. 10, pp. 12547–12553, 2009.</td>
+              <td>Combined self-organizing maps and neural classification networks to predict customer defection
+                probabilities from historical records.</td>
+              <td>Static demographic data alone cannot effectively predict churn; dynamic interaction sequences provide
+                earlier defection warnings.</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>E. A. Severin and M. J. Ballings, "Real-time event-driven churn assessment in online retail
+                platforms," <em>Journal of Retailing and Consumer Services</em>, vol. 55, Art. no. 102103, 2020.</td>
+              <td>Used real-time event streaming to track checkout hesitation and shopping cart abandonment exit points
+                in digital retail.</td>
+              <td>Proves that outreach within minutes of cart abandonment recovers over 30% of shoppers, confirming the
+                value of real-time telemetry.</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>S. M. Hassouna, A. Nishikawa, and E. E. Tarasewich, "A weighted multi-factor scoring model for
+                customer lifetime value and churn risk assessment," <em>Decision Support Systems</em>, vol. 79, pp.
+                44–55, 2015.</td>
+              <td>Formulated a multi-variable weighted arithmetic equation combining inactivity duration, purchase
+                frequency decay, and monetary trends.</td>
+              <td>Basis of our arithmetic risk model: weighted multi-factor equations deliver transparent, sub-3ms
+                scoring without high GPU compute costs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 3 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Literature Survey 2 -->
+    <div class="slide" id="slide-4">
+      <div class="slide-title-bar">
+        <h2>Literature Survey</h2>
+        <div class="slide-subtitle">Analysis of Published Research (Part 2)</div>
+      </div>
+
+      <div class="slide-content">
+        <table class="pres-table">
+          <thead>
+            <tr>
+              <th style="width: 5%;">Sl.</th>
+              <th style="width: 32%;">Journal Paper Title with Author (IEEE Format)</th>
+              <th style="width: 35%;">Works carried out (Methods / Software / Algorithms / Techniques used)</th>
+              <th style="width: 28%;">Information gathered relevant to our project</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>H. Wang, T. Liu, and Y. Chen, "Event-driven microservices architecture for real-time customer data
+                synchronization using WebSockets," <em>IEEE Software</em>, vol. 40, no. 2, pp. 62–71, 2023.</td>
+              <td>Implemented bidirectional full-duplex WebSocket channels between Node.js servers and browser clients
+                for live operational telemetry.</td>
+              <td>Full-duplex WebSockets reduce client-server data synchronization latency by over 80% compared to
+                traditional HTTP polling.</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>A. Sathish and S. Kumar, "Intelligent customer care using generative AI and sequential modeling for
+                proactive retention," <em>Scientific Reports</em>, vol. 15, Art. no. 15501, 2025.</td>
+              <td>Designed prompt-engineered LLM conversational agents to model customer dissatisfaction and multi-turn
+                negotiation dialogues.</td>
+              <td>Basis of our AI Retention Arena: LLMs provide dynamic persona simulation, sentiment tracking, and
+                win-back prediction.</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>O. Arreche, "Explainable AI (XAI) governance framework for automated algorithmic decision systems,"
+                <em>MDPI Applied Sciences</em>, vol. 14, no. 10, Art. no. 4170, 2024.
+              </td>
+              <td>Designed human-in-the-loop governance frameworks featuring manual overrides and tamper-evident audit
+                registries.</td>
+              <td>Autonomous systems require managerial override controls and mandatory justification logging to prevent
+                misclassification and preserve trust.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 4 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Scope of the Project -->
+    <div class="slide" id="slide-5">
+      <div class="slide-title-bar">
+        <h2>Scope of the Project</h2>
+      </div>
+
+      <div class="slide-content">
+        <ul class="bullet-list" style="font-size: 13.5px;">
+          <li><strong>Continuous E-Commerce Telemetry Tracking:</strong> Real-time monitoring of 150+ realistic
+            e-commerce customer profiles across Low, Medium, and High-Risk operational segments.</li>
+          <li><strong>Sub-Second Scoring Pipeline:</strong> Background activity worker generating stochastic behavioral
+            events on a 20-second cadence, re-scored in 2.4 ms and broadcast in 38.6 ms.</li>
+          <li><strong>Autonomous Risk-Gated Interventions:</strong> Autopilot triggering of single-use 20% promotional
+            discount vouchers and cart recovery alerts via transactional email gateways.</li>
+          <li><strong>Generative AI Negotiation Sandbox:</strong> Interactive multi-turn conversational simulator
+            powered by Google Gemini 1.5 Flash with live numeric sentiment scoring (0-100%) and local offline fallback.
+          </li>
+          <li><strong>Judea Pearl Causal Counterfactual Branching:</strong> Simulation tool allowing retention managers
+            to test "what-if" recovery policies against historical customer friction before real outreach.</li>
+          <li><strong>Human-in-the-Loop Override Registry:</strong> Authenticated managerial override system enforcing
+            mandatory business justification logging in MongoDB Atlas.</li>
+          <li><strong>Future Scalability:</strong> Expandable to live Shopify/WooCommerce webhooks, omnichannel
+            WhatsApp/SMS messaging, and reinforcement learning self-calibrating scoring.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 5 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Need for Current Study -->
+    <div class="slide" id="slide-6">
+      <div class="slide-title-bar">
+        <h2>Need for the Current Study</h2>
+      </div>
+
+      <div class="slide-content">
+        <ul class="bullet-list" style="font-size: 14px;">
+          <li><strong>Critical Latency of Conventional Batch CRM (24–48 Hour Delay):</strong> Traditional ML pipelines
+            run overnight batch jobs. By the time disengagement is flagged, the customer has defected to a competitor.
+          </li>
+          <li><strong>Absence of Real-Time Full-Duplex Data Synchronization:</strong> Client dashboards depend on manual
+            browser refreshes or intermittent polling, forcing retention teams to act on stale data snapshots.</li>
+          <li><strong>Margin Erosion from Blanket Discounting:</strong> Blanket promotional blasts give unnecessary
+            discounts to loyal shoppers while failing to address qualitative service issues of churning accounts.</li>
+          <li><strong>Lack of Safe Simulation Training for Retention Representatives:</strong> Customer success agents
+            have no interactive sandbox to practice negotiation tactics before engaging high-value departing accounts.
+          </li>
+          <li><strong>Algorithmic Opacity and Lack of Governance:</strong> Autonomous black-box classifiers trigger
+            false-positive dispatches without human oversight or tamper-evident audit trails.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 6 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Proposed Methodology Flowchart -->
+    <div class="slide" id="slide-7">
+      <div class="slide-title-bar">
+        <h2>Proposed Methodology (Flow Chart)</h2>
+      </div>
+
+      <div class="slide-content" style="align-items: center;">
+        <div
+          style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; width: 100%; text-align: center;">
+          <div
+            style="display: inline-block; background: #1e3a8a; color: white; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 11.5px; margin-bottom: 8px;">
+            START: JWT USER AUTHENTICATION & SESSION ISSUANCE</div>
+          <div style="font-size: 14px; color: #64748b; margin-bottom: 6px;">&darr;</div>
+
+          <div
+            style="display: inline-block; background: #f1f5f9; border: 1.5px solid #0284c7; padding: 6px 16px; border-radius: 6px; font-weight: 600; font-size: 11.5px; margin-bottom: 8px;">
+            <strong>20s Background Telemetry Simulator:</strong> Generates Cart Abandon, Checkout View, Purchase Decay
+          </div>
+          <div style="font-size: 14px; color: #64748b; margin-bottom: 6px;">&darr;</div>
+
+          <div
+            style="display: inline-block; background: #eff6ff; border: 1.5px solid #1d4ed8; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 12px; margin-bottom: 8px;">
+            <strong>Mathematical Scoring Engine:</strong> S = min(99, max(1, floor[0.40(Inactivity) + 0.30(Cart) +
+            0.30(Decay)]))
+          </div>
+          <div style="font-size: 14px; color: #64748b; margin-bottom: 6px;">&darr;</div>
+
+          <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 8px;">
+            <div
+              style="background: #ecfdf5; border: 1px solid #059669; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+              <strong style="color: #059669;">Low Risk (1–39)</strong><br>Standard Telemetry Log
+            </div>
+            <div
+              style="background: #fffbeb; border: 1px solid #d97706; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+              <strong style="color: #d97706;">Medium Risk (40–69)</strong><br>Cart Recovery Notice
+            </div>
+            <div
+              style="background: #fef2f2; border: 1px solid #dc2626; padding: 6px 12px; border-radius: 6px; font-size: 11px;">
+              <strong style="color: #dc2626;">High Risk (70–99)</strong><br>Autopilot 20% Voucher via Brevo
+            </div>
+          </div>
+          <div style="font-size: 14px; color: #64748b; margin-bottom: 6px;">&darr;</div>
+
+          <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 8px;">
+            <div
+              style="background: #ffffff; border: 1px solid #3b82f6; padding: 6px 14px; border-radius: 6px; font-size: 11px;">
+              <strong>Socket.io Push</strong><br>Broadcasts updates in 38.6ms
+            </div>
+            <div
+              style="background: #ffffff; border: 1px solid #7c3aed; padding: 6px 14px; border-radius: 6px; font-size: 11px;">
+              <strong>Gemini AI Arena</strong><br>Multi-Agent Negotiation
+            </div>
+            <div
+              style="background: #ffffff; border: 1px solid #b91c1c; padding: 6px 14px; border-radius: 6px; font-size: 11px;">
+              <strong>HITL Override</strong><br>Manager Justification Log
+            </div>
+          </div>
+          <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">&darr;</div>
+
+          <div
+            style="display: inline-block; background: #0f172a; color: white; padding: 5px 16px; border-radius: 20px; font-weight: 700; font-size: 11px;">
+            PERSISTENCE TO MONGODB ATLAS &amp; REAL-TIME SINGLE PAGE DASHBOARD
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 7 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Gantt Chart -->
+    <div class="slide" id="slide-8">
+      <div class="slide-title-bar">
+        <h2>Proposed Methodology (Gantt Chart)</h2>
+      </div>
+
+      <div class="slide-content">
+        <table class="pres-table gantt-table">
+          <thead>
+            <tr>
+              <th style="width: 38%; text-align: left;">Activity / Development Milestone</th>
+              <th style="width: 6%;">W1</th>
+              <th style="width: 6%;">W2</th>
+              <th style="width: 6%;">W3</th>
+              <th style="width: 6%;">W4</th>
+              <th style="width: 6%;">W5</th>
+              <th style="width: 6%;">W6</th>
+              <th style="width: 6%;">W7</th>
+              <th style="width: 6%;">W8</th>
+              <th style="width: 6%;">W9</th>
+              <th style="width: 6%;">W10</th>
+              <th style="width: 14%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Literature Survey &amp; Problem Formulation</td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Mathematical Risk Equation Formulation</td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">MongoDB Atlas Schemas &amp; JWT RBAC Auth</td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">20s Telemetry Simulator &amp; Socket.io WS</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Autopilot Campaign Engine (Brevo &amp; EmailJS)</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Google Gemini 1.5 Multi-Agent AI Arena</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Counterfactual Scenario Branching &amp; Overrides</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">React 18 SPA Glassmorphism &amp; Chart.js</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Cloud Deployment (Vercel + Render + Atlas)</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; font-weight: 600;">Integration Testing &amp; Final Project Report</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="gantt-bar">Done</span></td>
+              <td><strong style="color: #059669;">Completed</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 8 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Technology Stack -->
+    <div class="slide" id="slide-9">
+      <div class="slide-title-bar">
+        <h2>Technology Stack Used</h2>
+      </div>
+
+      <div class="slide-content">
+        <div class="grid-2x2">
+          <div class="grid-card ui">
+            <div class="card-badge ui"><span>UI</span> Frontend &amp; User Experience</div>
+            <ul>
+              <li><strong>React 18:</strong> Component-based single-page application</li>
+              <li><strong>Vite v5:</strong> High-performance ES module build engine &amp; HMR</li>
+              <li><strong>Modular SCSS:</strong> Cybernetic glassmorphism &amp; 3D card tilt physics</li>
+              <li><strong>Chart.js &amp; Canvas:</strong> Real-time 2D/3D risk visualization suites</li>
+              <li><strong>Socket.io Client:</strong> Full-duplex WebSocket event subscription</li>
+            </ul>
+          </div>
+
+          <div class="grid-card api">
+            <div class="card-badge api"><span>API</span> Backend &amp; Cloud Database</div>
+            <ul>
+              <li><strong>Node.js (v18 LTS):</strong> Non-blocking asynchronous event loop runtime</li>
+              <li><strong>Express.js 4.19:</strong> Modular REST routing &amp; dynamic port allocator</li>
+              <li><strong>MongoDB Atlas:</strong> Multi-region cloud NoSQL document database</li>
+              <li><strong>Mongoose ODM 8.0:</strong> Typed schema validation &amp; compound indexing</li>
+              <li><strong>JWT &amp; bcryptjs:</strong> Stateless 7-day token auth with salt factor 10</li>
+            </ul>
+          </div>
+
+          <div class="grid-card ai">
+            <div class="card-badge ai"><span>AI</span> Real-Time Streaming &amp; Generative AI</div>
+            <ul>
+              <li><strong>Socket.io Server:</strong> Full-duplex WebSocket &amp; polling fallback</li>
+              <li><strong>Google Gemini 1.5 Flash:</strong> Multimodal LLM for persona dialogue</li>
+              <li><strong>Structured JSON Schemas:</strong> Turn-by-turn sentiment extraction</li>
+              <li><strong>Deterministic Heuristic Fallback:</strong> Zero-downtime offline rule engine</li>
+              <li><strong>Counterfactual Simulator:</strong> Judea Pearl causal policy projection</li>
+            </ul>
+          </div>
+
+          <div class="grid-card dev">
+            <div class="card-badge dev"><span>DEV</span> Messaging, Cloud DevOps &amp; Testing</div>
+            <ul>
+              <li><strong>Brevo REST API &amp; EmailJS:</strong> Transactional discount vouchers</li>
+              <li><strong>Vercel Global Edge CDN:</strong> High-speed frontend single-page hosting</li>
+              <li><strong>Render Web Services:</strong> Containerized Linux backend micro-service</li>
+              <li><strong>Postman &amp; Stress Testing:</strong> End-to-end endpoint &amp; latency testing</li>
+              <li><strong>Git &amp; GitHub:</strong> Monorepo version control and CI/CD automation</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="background: #0f172a; color: white; border-radius: 6px; padding: 6px 12px; margin-top: 10px; text-align: center; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px;">
+          CORE FLOW: React 18 SPA &rarr; Express REST / Socket.io &rarr; Risk Engine / Gemini &rarr; MongoDB Atlas
+          &rarr; Brevo API
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 9 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: System Architecture -->
+    <div class="slide" id="slide-10">
+      <div class="slide-title-bar">
+        <h2>System Architecture</h2>
+      </div>
+
+      <div class="slide-content">
+        <div style="display: flex; gap: 15px;">
+          <div style="flex: 1.1; font-size: 11.5px; line-height: 1.45;">
+            <div style="margin-bottom: 8px;">
+              <strong style="color: #0284c7; font-size: 12.5px;">1. Client Layer — React.js Single Page App</strong><br>
+              Retention managers monitor live score tickers, inspect 360 customer profiles, conduct AI negotiation
+              simulations, and execute recommendation overrides.
+            </div>
+            <div style="margin-bottom: 8px;">
+              <strong style="color: #059669; font-size: 12.5px;">2. API Layer — Express.js &amp; Socket.io</strong><br>
+              Authenticates requests via JWT, enforces RBAC, allocates available ports (10000–10009), and manages
+              persistent WebSocket streaming channels.
+            </div>
+            <div style="margin-bottom: 8px;">
+              <strong style="color: #7c3aed; font-size: 12.5px;">3. Core Engine — Risk Math &amp; Gemini AI</strong><br>
+              Runs the 20-second background activity simulator, executes sub-3ms mathematical risk scoring, and powers
+              the Generative AI negotiation arena.
+            </div>
+            <div>
+              <strong style="color: #d97706; font-size: 12.5px;">4. Persistence Layer — MongoDB Atlas</strong><br>
+              Maintains customer telemetry, campaign dispatches, user credentials, and an immutable audit registry for
+              managerial overrides.
+            </div>
+          </div>
+
+          <div style="flex: 1.2; display: flex; flex-direction: column; justify-content: center; gap: 6px;">
+            <div
+              style="background: #e0f2fe; border: 1.5px solid #0284c7; border-radius: 6px; padding: 7px; text-align: center; font-size: 11.5px; font-weight: 700; color: #0369a1;">
+              CLIENT PRESENTATION LAYER<br><span style="font-size: 10px; font-weight: 500; color: #0284c7;">React 18 •
+                Vite • SCSS Glassmorphism • Chart.js Canvas</span>
+            </div>
+            <div style="text-align: center; color: #64748b; font-size: 11px;">&updownarrow; Full-Duplex WebSockets /
+              REST API (JWT)</div>
+
+            <div
+              style="background: #ecfdf5; border: 1.5px solid #059669; border-radius: 6px; padding: 7px; text-align: center; font-size: 11.5px; font-weight: 700; color: #047857;">
+              API GATEWAY &amp; SECURITY LAYER<br><span
+                style="font-size: 10px; font-weight: 500; color: #059669;">Express.js • Socket.io Broker • JWT
+                Middleware • Helmet</span>
+            </div>
+            <div style="text-align: center; color: #64748b; font-size: 11px;">&updownarrow; Event Emitters &amp;
+              Computational Dispatch</div>
+
+            <div
+              style="background: #f5f3ff; border: 1.5px solid #7c3aed; border-radius: 6px; padding: 7px; text-align: center; font-size: 11.5px; font-weight: 700; color: #6d28d9;">
+              CORE ANALYTICS &amp; GENERATIVE AI LAYER<br><span
+                style="font-size: 10px; font-weight: 500; color: #7c3aed;">20s Telemetry Simulator • Bounded Risk Scorer
+                • Gemini 1.5 Flash</span>
+            </div>
+            <div style="text-align: center; color: #64748b; font-size: 11px;">&updownarrow; Mongoose ODM / Transactional
+              SMTP API</div>
+
+            <div
+              style="background: #fffbeb; border: 1.5px solid #d97706; border-radius: 6px; padding: 7px; text-align: center; font-size: 11.5px; font-weight: 700; color: #b45309;">
+              PERSISTENCE &amp; INTEGRATION LAYER<br><span
+                style="font-size: 10px; font-weight: 500; color: #d97706;">MongoDB Atlas Cluster • Brevo Email API •
+                Audit Log Collection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 10 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Modules -->
+    <div class="slide" id="slide-11">
+      <div class="slide-title-bar">
+        <h2>Implemented Modules &amp; Pipeline</h2>
+      </div>
+
+      <div class="slide-content">
+        <div class="flow-steps">
+          <div class="flow-step-box highlight"><span class="step-num">MODULE 1</span>Simulator Thread</div>
+          <div class="flow-step-box"><span class="step-num">MODULE 2</span>Risk Scorer</div>
+          <div class="flow-step-box highlight"><span class="step-num">MODULE 3</span>WebSocket Push</div>
+          <div class="flow-step-box"><span class="step-num">MODULE 4</span>Autopilot Rules</div>
+          <div class="flow-step-box highlight"><span class="step-num">MODULE 5</span>AI Arena</div>
+          <div class="flow-step-box"><span class="step-num">MODULE 6</span>Override Registry</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px;">
+          <div>
+            <strong style="color: #1e3a8a;">1. Authentication &amp; Project Access:</strong> Secure JWT user login,
+            encrypted token storage, and Role-Based Access Control (Admin, Manager, Agent).<br><br>
+            <strong style="color: #1e3a8a;">2. Continuous Telemetry Simulation:</strong> Background Node.js worker
+            simulating customer cart drops, checkout visits, order decay, and inactivity drift every 20 seconds.<br><br>
+            <strong style="color: #1e3a8a;">3. Dynamic Risk Scoring Engine:</strong> Stateless mathematical evaluator
+            calculating continuous risk scores between 1 and 99 in sub-3ms compute time.
+          </div>
+          <div>
+            <strong style="color: #1e3a8a;">4. Autonomous Autopilot Dispatcher:</strong> Automatically triggers and
+            dispatches 20% discount vouchers and checkout recovery emails when scores breach thresholds (&ge;
+            70).<br><br>
+            <strong style="color: #1e3a8a;">5. Multi-Agent AI Arena &amp; Scenarios:</strong> Google Gemini 1.5 Flash
+            sandbox evaluating agent negotiations with live sentiment meters (0-100%) and counterfactual
+            forecasting.<br><br>
+            <strong style="color: #1e3a8a;">6. Human-in-the-Loop Governance:</strong> Authorizes managers to override
+            automated risk tiers with mandatory business justification committed to an immutable MongoDB audit log.
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 11 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Advantages & Disadvantages -->
+    <div class="slide" id="slide-12">
+      <div class="slide-title-bar">
+        <h2>Advantages and Disadvantages</h2>
+      </div>
+
+      <div class="slide-content">
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #059669; font-size: 14px; text-transform: uppercase;">Advantages</strong>
+          <ul class="bullet-list" style="margin-top: 4px; font-size: 12.5px;">
+            <li><strong>Zero-Latency Interception:</strong> Replaces 24-48 hour batch delays with sub-50ms WebSocket
+              telemetry, engaging at-risk shoppers before permanent defection.</li>
+            <li><strong>Explainable Bounded Scoring:</strong> Deterministic mathematical formulation eliminates opaque
+              black-box errors; factors are 100% transparent and auditable.</li>
+            <li><strong>High Retention Conversion:</strong> Autonomous autopilot vouchers achieve a verified 37.6%
+              recovery conversion rate for high-risk accounts.</li>
+            <li><strong>Interactive Safe-Harbor Training:</strong> Retention agents practice negotiations against Gemini
+              AI personas without risking live client accounts.</li>
+            <li><strong>Complete Algorithmic Governance:</strong> Mandatory justification logging enforces compliance
+              and accountability for all manual manager overrides.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color: #b91c1c; font-size: 14px; text-transform: uppercase;">Disadvantages /
+            Limitations</strong>
+          <ul class="bullet-list" style="margin-top: 4px; font-size: 12.5px;">
+            <li><strong>Synthetic Telemetry Ingestion:</strong> Current academic prototype utilizes an asynchronous
+              stochastic simulator rather than live production webhooks (Shopify/Magento).</li>
+            <li><strong>Single-Channel Outbound Recovery:</strong> Interventions are currently delivered via
+              transactional email; SMS and WhatsApp gateways are not yet integrated.</li>
+            <li><strong>Cloud LLM Latency &amp; Quotas:</strong> Conversational features depend on Gemini API latency
+              (avg 1420ms) and cloud rate limits (mitigated via local heuristic fallback).</li>
+            <li><strong>Static Linear Weights:</strong> Calibrated for general e-commerce; vertical-specific repurchase
+              rhythms (luxury apparel vs FMCG) require vertical-specific tuning.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 12 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: How Score is Calculated -->
+    <div class="slide" id="slide-13">
+      <div class="slide-title-bar">
+        <h2>How the Churn Score is Calculated</h2>
+      </div>
+
+      <div class="slide-content">
+        <div class="formula-card">
+          <div class="formula-code">
+            S = min(99, max(1, floor[ 0.40 * (min(Tinact, 120) / 120) * 100 + 0.30 * (min(Rcart, 100) / 100) * 100 +
+            0.30 * (min(Dfreq, 100) / 100) * 100 ]))
+          </div>
+        </div>
+
+        <div class="factor-boxes">
+          <div class="factor-box">
+            <h5>Temporal Inactivity</h5>
+            <div class="weight">40% Weight (w1)</div>
+            <p>Days since last order, capped at 120 days (Contributes up to 40 pts)</p>
+          </div>
+          <div class="factor-box">
+            <h5>Cart Abandonment</h5>
+            <div class="weight">30% Weight (w2)</div>
+            <p>Percentage of abandoned carts, capped at 100% (Contributes up to 30 pts)</p>
+          </div>
+          <div class="factor-box">
+            <h5>Purchase Decay</h5>
+            <div class="weight">30% Weight (w3)</div>
+            <p>Drop in order frequency vs historical baseline (Contributes up to 30 pts)</p>
+          </div>
+        </div>
+
+        <div
+          style="background: #eff6ff; border: 1px solid #93c5fd; border-radius: 6px; padding: 8px 12px; font-size: 12px; margin-top: 6px;">
+          <strong style="color: #1e3a8a;">Sample Verification Calculation:</strong><br>
+          Customer Profile: Inactivity = 90 days, Cart Abandonment = 80%, Frequency Decay = 65%<br>
+          Score Calculation: (0.40 &times; 75) + (0.30 &times; 80) + (0.30 &times; 65) = 30.0 + 24.0 + 19.5 =
+          <strong>73.5 &rarr; 73 (High Risk)</strong><br>
+          <span style="color: #dc2626; font-weight: 700;">Resulting Action: Score 73 &ge; 70 &rarr; Red Flag Badge on UI
+            &rarr; Triggers Autopilot 20% Voucher via Brevo.</span>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 13 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: RESULTS AND DISCUSSION -->
+    <div class="slide" id="slide-14">
+      <div class="slide-title-bar">
+        <h2>Results and Discussion</h2>
+      </div>
+
+      <div class="slide-content" style="padding: 10px 15px;">
+        <div style="margin-bottom: 22px;">
+          <h3
+            style="color: #8c4b18; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; font-family: 'Cambria', 'Georgia', serif;">
+            RESULTS:</h3>
+          <ul style="list-style-type: disc; padding-left: 24px; color: #1e293b; font-size: 13.5px; line-height: 1.65;">
+            <li style="margin-bottom: 7px;">The Live Customer Churn Risk Assessment Engine was successfully developed as
+              a full-stack, event-driven web-based e-commerce platform.</li>
+            <li style="margin-bottom: 7px;">The system integrates telemetry ingestion, sub-3ms mathematical risk
+              scoring, live WebSocket broadcasting, AI negotiation arena, and marketing automation in one centralized
+              environment.</li>
+            <li style="margin-bottom: 7px;">Customer behavioral profiles, longitudinal risk trajectories, order
+              histories, and audit records can be managed in an organized and efficient manner.</li>
+            <li style="margin-bottom: 7px;">The performance module supports structured computation of churn risk scores
+              (<i>S</i> &in; [1, 99]), dynamic risk tiering, and automated single-use voucher dispatches.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3
+            style="color: #8c4b18; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; font-family: 'Cambria', 'Georgia', serif;">
+            DISCUSSION:</h3>
+          <ul style="list-style-type: disc; padding-left: 24px; color: #1e293b; font-size: 13.5px; line-height: 1.65;">
+            <li style="margin-bottom: 7px;">The developed system shows that proactive event-driven churn assessment is
+              significantly more effective than traditional 24-to-48-hour batch methods.</li>
+            <li style="margin-bottom: 7px;">Integration of streaming behavioral telemetry with real-time dashboard
+              analytics dramatically improves visibility into immediate customer attrition risk.</li>
+            <li style="margin-bottom: 7px;">Role-based access control (RBAC) increases security and ensures that agents,
+              managers, and administrators access only relevant analytical and override features.</li>
+            <li style="margin-bottom: 7px;">Human-in-the-Loop approval workflows and tamper-evident override audit
+              registries strengthen governance, compliance, and institutional transparency.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 14 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: Testing and Validation -->
+    <div class="slide" id="slide-15">
+      <div class="slide-title-bar">
+        <h2>Testing and Validation</h2>
+      </div>
+
+      <div class="slide-content">
+        <table class="pres-table" style="font-size: 11px;">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Test Area</th>
+              <th style="width: 38%;">Functionality Covered</th>
+              <th style="width: 15%;">Demo Check</th>
+              <th style="width: 22%;">Detailed Record</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Authentication &amp; RBAC</strong></td>
+              <td>Signed JWT issue, 7-day TTL, role-based protection (Admin/Manager/Agent)</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-01, TC-02)</td>
+            </tr>
+            <tr>
+              <td><strong>20s Telemetry Simulator</strong></td>
+              <td>Stochastic cart exits, order decay, and inactivity drift generation</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-03)</td>
+            </tr>
+            <tr>
+              <td><strong>Mathematical Risk Engine</strong></td>
+              <td>Boundary clamping (1-99), multi-variable weighting arithmetic</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-04, TC-05)</td>
+            </tr>
+            <tr>
+              <td><strong>Autopilot Email Dispatch</strong></td>
+              <td>Threshold breach (Score &ge; 70) auto-dispatches 20% voucher via Brevo</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-06)</td>
+            </tr>
+            <tr>
+              <td><strong>WebSocket Synchronization</strong></td>
+              <td>Sub-50ms score push to connected browser tabs without reload</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-07)</td>
+            </tr>
+            <tr>
+              <td><strong>Multi-Agent AI Arena</strong></td>
+              <td>Google Gemini 1.5 dialogue turns with live sentiment scoring</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-08)</td>
+            </tr>
+            <tr>
+              <td><strong>Heuristic Offline Fallback</strong></td>
+              <td>Instant failover to local sentiment rules during simulated cloud API outage</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-09)</td>
+            </tr>
+            <tr>
+              <td><strong>Human-in-the-Loop Override</strong></td>
+              <td>Manager tier change with mandatory justification audit logging</td>
+              <td><strong style="color: #059669;">Demonstrated</strong></td>
+              <td>Report Table 5.1 (TC-10)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="display: flex; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 6px 14px; font-size: 11.5px; font-weight: 700; color: #1e3a8a; margin-top: 6px;">
+          <span>Compute Time: 2.4 ms (Target &lt;10ms)</span>
+          <span>WS Latency: 38.6 ms (Target &lt;100ms)</span>
+          <span>Recovery Conversion: 37.6% (125 dispatches)</span>
+          <span>Test Suite: 100% Pass</span>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 15 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: Cost Benefit Analysis -->
+    <div class="slide" id="slide-16">
+      <div class="slide-title-bar">
+        <h2>Cost Benefit Analysis</h2>
+      </div>
+
+      <div class="slide-content">
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #b91c1c; font-size: 14px; text-transform: uppercase;">Cost</strong>
+          <ul class="bullet-list" style="margin-top: 4px; font-size: 13px;">
+            <li><strong>Software &amp; Frameworks:</strong> 100% Open Source (React 18, Node.js, Express, Socket.io,
+              Mongoose) — <strong>₹0 Licence Fee</strong>.</li>
+            <li><strong>Cloud Hosting &amp; Database:</strong> Built on generous cloud free tiers (Vercel Edge CDN,
+              Render Web Services, MongoDB Atlas M0 cluster) — <strong>₹0 Infrastructure Cost</strong> during
+              evaluation.</li>
+            <li><strong>AI Inference:</strong> Google Gemini 1.5 Flash API free development tier + local zero-cost
+              deterministic heuristic fallback.</li>
+            <li><strong>Effort:</strong> Time and engineering contributions of the three batch team members.</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <strong style="color: #059669; font-size: 14px; text-transform: uppercase;">Benefit</strong>
+          <ul class="bullet-list" style="margin-top: 4px; font-size: 13px;">
+            <li><strong>Proactive Attrition Interception:</strong> Intercepts high-intent buyers in real time,
+              delivering a verified 37.6% customer win-back rate.</li>
+            <li><strong>Profit Margin Protection:</strong> Replaces blanket 20% discount blasts with risk-gated vouchers
+              dispatched only to verified at-risk shoppers.</li>
+            <li><strong>Safe-Harbor Representative Training:</strong> Generative AI arena accelerates agent negotiation
+              proficiency without risking real client relationships.</li>
+            <li><strong>Guaranteed Governance Compliance:</strong> Tamper-evident audit logging prevents unmonitored
+              algorithmic mistakes and satisfies regulatory standards.</li>
+          </ul>
+        </div>
+
+        <div
+          style="background: #eff6ff; border: 1.5px solid #1d4ed8; border-radius: 6px; padding: 8px 12px; text-align: center; font-size: 12px; font-weight: 700; color: #1e3a8a;">
+          OVERALL OUTCOME: A cost-effective, scalable, and zero-license platform for live churn risk assessment and
+          automated retention.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 16 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: Existing vs Proposed -->
+    <div class="slide" id="slide-17">
+      <div class="slide-title-bar">
+        <h2>Existing Methods vs Proposed Method</h2>
+      </div>
+
+      <div class="slide-content">
+        <table class="pres-table" style="font-size: 11px;">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Aspect</th>
+              <th style="width: 38%;">Existing Methods (Conventional CRM)</th>
+              <th style="width: 40%;">Proposed Method (Live Churn Engine)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Telemetry Ingestion</strong></td>
+              <td>24–48 hour overnight batch ETL extraction from OLTP databases.</td>
+              <td>Continuous 20-second stochastic behavioral telemetry stream.</td>
+            </tr>
+            <tr>
+              <td><strong>Churn Risk Scoring</strong></td>
+              <td>Retrospective RFM scoring or delayed offline ML batch inference.</td>
+              <td>Instantaneous sub-3ms mathematical scoring ($S \in [1, 99]$).</td>
+            </tr>
+            <tr>
+              <td><strong>Data Synchronization</strong></td>
+              <td>Manual browser refresh or intermittent client HTTP polling.</td>
+              <td>Full-duplex persistent WebSockets (Socket.io) with sub-50ms push.</td>
+            </tr>
+            <tr>
+              <td><strong>Promotional Outreach</strong></td>
+              <td>Manual list export with blanket, margin-eroding discount blasts.</td>
+              <td>Autonomous risk-gated Autopilot dispatching targeted single-use vouchers.</td>
+            </tr>
+            <tr>
+              <td><strong>Retention Training</strong></td>
+              <td>Static PDF procedural manuals or trial-and-error on live accounts.</td>
+              <td>Interactive Multi-Agent AI Arena powered by Google Gemini 1.5 Flash.</td>
+            </tr>
+            <tr>
+              <td><strong>Scenario Evaluation</strong></td>
+              <td>Speculative guesswork with zero predictive policy testing.</td>
+              <td>Judea Pearl Causal Counterfactual Branching simulator.</td>
+            </tr>
+            <tr>
+              <td><strong>Decision Governance</strong></td>
+              <td>Opaque black-box classifiers with no audit trail for overrides.</td>
+              <td>Human-in-the-Loop Override Registry with mandatory justification logging.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="background: #0f172a; color: white; border-radius: 6px; padding: 6px 12px; margin-top: 6px; text-align: center; font-size: 11.5px; font-weight: 700;">
+          Key Differentiation: Static / Delayed Batch Processing &rarr; Integrated Real-Time Telemetry, Autonomous
+          Recovery &amp; Human-Governed AI
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 17 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18: Individual Contributions - Logesh M -->
+    <div class="slide" id="slide-18">
+      <div class="slide-title-bar">
+        <h2>Individual Contributions to the Work</h2>
+        <div class="slide-subtitle">Batch Member 1 : ( 7376241CS505 - LOGESH M )</div>
+      </div>
+
+      <div class="slide-content">
+        <div
+          style="background: #eff6ff; border-left: 4px solid #1e3a8a; padding: 8px 12px; margin-bottom: 12px; border-radius: 4px;">
+          <strong style="color: #1e3a8a; font-size: 13.5px;">Role: Backend, WebSocket &amp; AI Fallback Lead</strong>
+        </div>
+
+        <ul class="bullet-list" style="font-size: 13px;">
+          <li><strong>Mathematical Risk Model Formulation:</strong> Formulated the bounded multi-variable churn risk
+            equation ($w_1 = 40\%$, $w_2 = 30\%$, $w_3 = 30\%$) and designed the stateless sub-3ms calculation service
+            (<code>riskScorer.js</code>).</li>
+          <li><strong>Server Architecture &amp; Port Discovery:</strong> Developed the Express.js server architecture
+            with dynamic port collision auto-discovery across sockets 10000–10009 (<code>server.js</code>).</li>
+          <li><strong>Full-Duplex WebSocket Pipeline:</strong> Engineered Socket.io server-side broadcast rooms and
+            event emitters (<code>socketEmitter.js</code>) streaming live telemetry updates.</li>
+          <li><strong>AI Integration &amp; Heuristic Fallback:</strong> Integrated Google Gemini 1.5 Flash API with JSON
+            schema prompting and engineered the local deterministic heuristic fallback engine.</li>
+          <li><strong>Backend Cloud Deployment:</strong> Configured production build scripts, containerized
+            dependencies, and managed deployment on Render Web Services.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 18 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 19: Individual Contributions - Siranjeevi S -->
+    <div class="slide" id="slide-19">
+      <div class="slide-title-bar">
+        <h2>Individual Contributions to the Work</h2>
+        <div class="slide-subtitle">Batch Member 2 : ( 7376241CS514 - SIRANJEEVI S )</div>
+      </div>
+
+      <div class="slide-content">
+        <div
+          style="background: #ecfdf5; border-left: 4px solid #059669; padding: 8px 12px; margin-bottom: 12px; border-radius: 4px;">
+          <strong style="color: #059669; font-size: 13.5px;">Role: Cloud Database, Security &amp; Audit Lead</strong>
+        </div>
+
+        <ul class="bullet-list" style="font-size: 13px;">
+          <li><strong>Cloud NoSQL Schema Architecture:</strong> Architected MongoDB Atlas document schemas for Customer,
+            Campaign, User, and Override collections using Mongoose ODM.</li>
+          <li><strong>Database Seeding &amp; Telemetry Profiles:</strong> Developed <code>seedCustomers.js</code>
+            populating 150 realistic customer dossiers, order arrays, and longitudinal cart timelines.</li>
+          <li><strong>Cryptographic Security &amp; RBAC:</strong> Implemented signed JWT authentication (7-day TTL),
+            bcryptjs password hashing (salt factor 10), and role-based route middleware.</li>
+          <li><strong>Override API &amp; Compound Indexing:</strong> Built <code>/api/overrides</code> endpoints and
+            configured compound B-Tree indexes (<code>{ operationalRiskTier: 1, churnRiskScore: -1 }</code>).</li>
+          <li><strong>Autopilot Campaign Integration:</strong> Engineered the server-side Autopilot listener logging
+            automated voucher dispatches and timestamps to MongoDB Atlas.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 19 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 20: Individual Contributions - Sridhar M -->
+    <div class="slide" id="slide-20">
+      <div class="slide-title-bar">
+        <h2>Individual Contributions to the Work</h2>
+        <div class="slide-subtitle">Batch Member 3 : ( 7376241CS515 - SRIDHAR M )</div>
+      </div>
+
+      <div class="slide-content">
+        <div
+          style="background: #fdf2f8; border-left: 4px solid #db2777; padding: 8px 12px; margin-bottom: 12px; border-radius: 4px;">
+          <strong style="color: #db2777; font-size: 13.5px;">Role: Frontend UI/UX, Analytics &amp; Deployment
+            Lead</strong>
+        </div>
+
+        <ul class="bullet-list" style="font-size: 13px;">
+          <li><strong>React 18 Single Page Application:</strong> Engineered the frontend architecture using Vite build
+            tooling, React Router DOM, and custom telemetry hooks (<code>useTelemetryData.js</code>).</li>
+          <li><strong>Cybernetic Glassmorphic Design System:</strong> Designed the modular SCSS user interface, 3D tilt
+            cards, glowing status tags, and HTML5 WebGL Neural Cluster Canvas.</li>
+          <li><strong>Chart.js Visual Analytics Suite:</strong> Implemented dynamic canvas charts for 30-day
+            longitudinal risk trends, cohort distributions, and revenue-at-risk projections.</li>
+          <li><strong>AI Arena &amp; Counterfactual UI:</strong> Built the interactive CS Trainer interface
+            (<code>Trainer.jsx</code>), live sentiment meters, win-back gauges, and what-if policy branching panel.</li>
+          <li><strong>Cloud Deployment &amp; Email Integration:</strong> Integrated Brevo and EmailJS delivery endpoints
+            and deployed the production single-page application to Vercel Global Edge CDN.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 20 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 21: CONCLUSION AND FUTURE SCOPE -->
+    <div class="slide" id="slide-21">
+      <div class="slide-title-bar">
+        <h2>Conclusion and Future Scope</h2>
+      </div>
+
+      <div class="slide-content" style="padding: 10px 15px;">
+        <div style="margin-bottom: 18px;">
+          <h3
+            style="color: #2b549a; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 10px; font-family: 'Cambria', 'Georgia', serif;">
+            CONCLUSION:</h3>
+          <ul style="list-style-type: disc; padding-left: 24px; color: #1e293b; font-size: 13px; line-height: 1.6;">
+            <li style="margin-bottom: 6px;">Successfully engineered and deployed an event-driven platform that replaces
+              24-to-48-hour batch CRM delays with a continuous 20-second telemetry stream and sub-3ms mathematical
+              scoring (<i>S</i> &in; [1, 99]).</li>
+            <li style="margin-bottom: 6px;">Demonstrated that autonomous risk-gated marketing voucher dispatches via
+              Brevo API intercept high-risk buyers to deliver a verified 37.6% account recovery rate while preserving
+              gross profit margins.</li>
+            <li style="margin-bottom: 6px;">Established a fault-tolerant hybrid AI architecture pairing Google Gemini
+              1.5 Flash conversational personas with a zero-downtime 6.8ms local deterministic heuristic fallback
+              engine.</li>
+            <li style="margin-bottom: 6px;">Implemented a Human-in-the-Loop Override Registry with mandatory
+              justification logging, signed JWT authentication, and RBAC to guarantee regulatory accountability and
+              Explainable AI (XAI) compliance.</li>
+            <li style="margin-bottom: 6px;">Validated full-stack production stability across Vercel Edge CDN, Render Web
+              Services, and MongoDB Atlas with 60 FPS frontend performance and 38.6ms WebSocket push latency.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3
+            style="color: #b91c1c; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; font-family: 'Cambria', 'Georgia', serif;">
+            FUTURE SCOPE:</h3>
+          <ul style="list-style-type: disc; padding-left: 24px; color: #1e293b; font-size: 12.5px; line-height: 1.55;">
+            <li style="margin-bottom: 5px;"><strong>Storefront Webhook Plugins:</strong> Develop turnkey Shopify,
+              WooCommerce, and Magento 2 webhook plugins backed by Apache Kafka for enterprise burst traffic.</li>
+            <li style="margin-bottom: 5px;"><strong>Omnichannel Recovery Grid:</strong> Expand outbound retention
+              dispatches to WhatsApp Business API and Twilio SMS with 1-click discount redemption.</li>
+            <li style="margin-bottom: 5px;"><strong>Exit-Intent Client Interceptors:</strong> Trigger client-side
+              browser modal offers the instant an at-risk customer exhibits tab switching or cart abandonment.</li>
+            <li style="margin-bottom: 5px;"><strong>Reinforcement Learning Calibration:</strong> Implement contextual
+              multi-armed bandits to calibrate churn factor weights and dynamic discount percentages automatically.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 21 of 22</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 22: References -->
+    <div class="slide" id="slide-22">
+      <div class="slide-title-bar">
+        <h2>References</h2>
+        <div class="slide-subtitle">( Journal Papers / Books / Website References )</div>
+      </div>
+
+      <div class="slide-content" style="font-size: 12px; line-height: 1.6;">
+        <p style="margin-bottom: 8px;"><strong>[1]</strong> C. F. Tsai and M. Y. Lu, “Customer churn prediction by
+          hybrid neural networks,” <em>Expert Systems with Applications</em>, vol. 36, no. 10, pp. 12547–12553, 2009.
+        </p>
+        <p style="margin-bottom: 8px;"><strong>[2]</strong> E. A. Severin and M. J. Ballings, “Real-time event-driven
+          churn assessment in online retail platforms,” <em>Journal of Retailing and Consumer Services</em>, vol. 55,
+          Art. no. 102103, 2020.</p>
+        <p style="margin-bottom: 8px;"><strong>[3]</strong> S. M. Hassouna, A. Nishikawa, and E. E. Tarasewich, “A
+          weighted multi-factor scoring model for customer lifetime value and churn risk assessment,” <em>Decision
+            Support Systems</em>, vol. 79, pp. 44–55, 2015.</p>
+        <p style="margin-bottom: 8px;"><strong>[4]</strong> H. Wang, T. Liu, and Y. Chen, “Event-driven microservices
+          architecture for real-time customer data synchronization using WebSockets,” <em>IEEE Software</em>, vol. 40,
+          no. 2, pp. 62–71, 2023.</p>
+        <p style="margin-bottom: 8px;"><strong>[5]</strong> A. Sathish and S. Kumar, “Intelligent customer care using
+          generative AI and sequential modeling for proactive retention,” <em>Scientific Reports</em>, vol. 15, Art. no.
+          15501, 2025.</p>
+        <p style="margin-bottom: 8px;"><strong>[6]</strong> O. Arreche, “Explainable AI (XAI) governance framework for
+          automated algorithmic decision systems,” <em>MDPI Applied Sciences</em>, vol. 14, no. 10, Art. no. 4170, 2024.
+        </p>
+
+        <div
+          style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-top: 15px; text-align: center;">
+          <h3 style="color: #1e3a8a; font-size: 15px; margin-bottom: 4px;">THANK YOU</h3>
+          <p style="color: #64748b; font-size: 12px;">Questions &amp; Discussion | Final Viva Voce Examination</p>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <div>28-10-2026</div>
+        <div class="footer-center">Final Viva Voce Presentation</div>
+        <div>Slide 22 of 22</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="controls-bar">
+    <button class="btn" id="prev-btn" onclick="prevSlide()">&#8592; Previous</button>
+    <div class="slide-counter" id="slide-num">Slide 1 / 22</div>
+    <button class="btn" id="next-btn" onclick="nextSlide()">Next &#8594;</button>
+    <button class="btn" style="background: #b91c1c;" onclick="window.print()">&#128438; Print / Save as PDF</button>
+    <button class="btn" style="background: #0f172a;" onclick="toggleFullScreen()">&#x26F6; Full Screen</button>
+  </div>
+  <div class="kbd-hint">Keyboard navigation: &larr; (Previous) &bull; &rarr; or Spacebar (Next) &bull; Press 'F' for
+    Fullscreen</div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 22;
+
+    function showSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      currentSlide = n;
+
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) {
+          slide.classList.remove('active');
+        }
+      }
+
+      const activeSlide = document.getElementById(`slide-${currentSlide}`);
+      if (activeSlide) {
+        activeSlide.classList.add('active');
+      }
+
+      document.getElementById('slide-num').innerText = `Slide ${currentSlide} / ${totalSlides}`;
+      document.getElementById('prev-btn').disabled = (currentSlide === 1);
+      document.getElementById('next-btn').disabled = (currentSlide === totalSlides);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function toggleFullScreen() {
+      const elem = document.querySelector('.deck-container');
+      if (!document.fullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      }
+    });
+
+    showSlide(1);
+  </script>
+</body>
+
+</html>
